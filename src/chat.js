@@ -1,39 +1,28 @@
-import fetch from 'node-fetch';
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
-    authDomain: "task-calendar-turarov.firebaseapp.com",
-    databaseURL: "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "task-calendar-turarov",
-    storageBucket: "task-calendar-turarov.appspot.com",
-    messagingSenderId: "685980356315",
-    appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
-    measurementId: "G-02B3TBFPNX"
-};
+import fetch from "node-fetch";
 
 const config = {
-    firebaseBaseUrl: "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
-    firebaseCollection: "messages.json"
+	firebaseBaseUrl:
+    "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+	firebaseCollection: "messages.json",
 };
-
 
 // /**
 //  * @return {Object[]} messagesList
 //  */
 async function getMessagesList() {
-    return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        }
-    })
-        .then((response) => response.json())
-        .then((data) =>
-            Object.values(data).map((el) => ({
-                ...el,
-                date: new Date(el.date)
-            }))
-        );
+	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
+		headers: {
+			"Accept": "application/json",
+			"Content-Type": "application/json",
+		},
+	})
+		.then((response) => response.json())
+		.then((data) =>
+			Object.values(data).map((el) => ({
+				...el,
+				date: new Date(el.date),
+			}))
+		);
 }
 
 // /**
@@ -43,73 +32,73 @@ async function getMessagesList() {
 //  * @returns {boolean}
 //  */
 async function sendMessage(data) {
-    return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
-        method: "POST",
-        body: JSON.stringify({
-            ...data,
-            date: new Date()
-        }),
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        }
-    }).then((response) => response.json());
+	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
+		method: "POST",
+		body: JSON.stringify({
+			...data,
+			date: new Date(),
+		}),
+		headers: {
+			"Accept": "application/json",
+			"Content-Type": "application/json",
+		},
+	}).then((response) => response.json());
 }
 
 function observeWithXHR(cb) {
-    // https://firebase.google.com/docs/reference/rest/database#section-streaming
-    const xhr = new XMLHttpRequest();
-    let lastResponseLength = 0;
+	// https://firebase.google.com/docs/reference/rest/database#section-streaming
+	const xhr = new XMLHttpRequest();
+	let lastResponseLength = 0;
 
-    xhr.addEventListener("progress", () => {
-        // console.log("xhr body", xhr.response);
-        const body = xhr.response.substr(lastResponseLength);
-        lastResponseLength = xhr.response.length;
+	xhr.addEventListener("progress", () => {
+		// console.log("xhr body", xhr.response);
+		const body = xhr.response.substr(lastResponseLength);
+		lastResponseLength = xhr.response.length;
 
-        const eventType = body.match(/event: (.+)/)[1];
-        const data = JSON.parse(body.match(/data: (.+)/)[1]);
+		const eventType = body.match(/event: (.+)/)[1];
+		const data = JSON.parse(body.match(/data: (.+)/)[1]);
 
-        if (eventType === "put") {
-            cb(data.data);
-        }
-    });
+		if (eventType === "put") {
+			cb(data.data);
+		}
+	});
 
-    xhr.open(
-        "POST",
-        `${config.firebaseBaseUrl}/${config.firebaseCollection}`,
-        true
-    );
-    xhr.setRequestHeader("Accept", "text/event-stream");
+	xhr.open(
+		"POST",
+		`${config.firebaseBaseUrl}/${config.firebaseCollection}`,
+		true
+	);
+	xhr.setRequestHeader("Accept", "text/event-stream");
 
-    xhr.send();
+	xhr.send();
 }
 
 function observeWithEventSource(cb) {
-    // https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
-    const evtSource = new EventSource(
-        `${config.firebaseBaseUrl}/${config.firebaseCollection}`
-    );
+	// https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
+	const evtSource = new EventSource(
+		`${config.firebaseBaseUrl}/${config.firebaseCollection}`
+	);
 
-    evtSource.addEventListener("put", (ev) => cb(JSON.parse(ev.data).data));
+	evtSource.addEventListener("put", (ev) => cb(JSON.parse(ev.data).data));
 }
 
-// sendMessage({ nickname: "testUser", message: "Hello, this is a test message!" })
-//     .then(response => {
-//         console.log("Message sent successfully:", response);
-//     })
-//     .catch(error => {
-//         console.error("Error sending message:", error);
-//     });
+sendMessage({ nickname: "testUser", message: "Hello, this is a test message!" })
+	.then((response) => {
+		console.log("Message sent successfully:", response);
+	})
+	.catch((error) => {
+		console.error("Error sending message:", error);
+	});
 
 getMessagesList()
-    .then(messages => {
-        console.log("Retrieved messages:", JSON.stringify(messages, null, 2));
-    })
-    .catch(error => {
-        console.error("Error retrieving messages:", error);
-    });
+	.then((messages) => {
+		console.log("Retrieved messages:", JSON.stringify(messages, null, 2));
+	})
+	.catch((error) => {
+		console.error("Error retrieving messages:", error);
+	});
 
 //   window.sendMessage = sendMessage;
 //   window.getMessagesList = getMessagesList;
-//   window.observeWithXHR = observeWithXHR;
-//   window.observeWithEventSource = observeWithEventSource;
+window.observeWithXHR = observeWithXHR;
+window.observeWithEventSource = observeWithEventSource;
