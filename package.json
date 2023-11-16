@@ -1,0 +1,23 @@
+{
+  "name": "otus-redux-chat-2023",
+  "version": "1.0.0",
+  "description": "otus-turarov-redux-chat-2023",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/KarkenVisualGit/otus-turarov-redux-chat-2023.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KarkenVisualGit/otus-turarov-redux-chat-2023/issues"
+  },
+  "homepage": "https://github.com/KarkenVisualGit/otus-turarov-redux-chat-2023#readme",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
