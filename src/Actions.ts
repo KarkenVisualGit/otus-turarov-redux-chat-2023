@@ -1,7 +1,12 @@
-import { GET_MESSAGES, RECEIVE_MESSAGES, SEND_MESSAGE, MESSAGE_SENT } from './ActionTypes';
+import {
+    GET_MESSAGES,
+    RECEIVE_MESSAGES,
+    SEND_MESSAGE,
+    MESSAGE_SENT,
+} from './ActionTypes';
 
 
-interface Message {
+export interface Message {
     nickname: string;
     message: string;
     date?: Date;
@@ -25,3 +30,4 @@ export const messageSent = (message: Message) => ({
     type: MESSAGE_SENT,
     payload: message,
 });
+

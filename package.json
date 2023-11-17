@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "otus-turarov-redux-chat-2023",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "jest",
     "lint": "prettier --check . && eslint .",

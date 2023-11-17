@@ -1,15 +1,27 @@
-import fetch from "node-fetch";
+import { Message } from './Actions';
+
+interface SendMessageResponse {
+	name: string;
+}
+
+interface EventData {
+	data: Message;
+}
+
+interface ServerResponse {
+	[key: string]: Message;
+}
 
 const config = {
 	firebaseBaseUrl:
-    "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+		"https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
 	firebaseCollection: "messages.json",
 };
 
 // /**
 //  * @return {Object[]} messagesList
 //  */
-async function getMessagesList() {
+export async function getMessagesList(): Promise<Message[]> {
 	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
 		headers: {
 			"Accept": "application/json",
@@ -17,10 +29,10 @@ async function getMessagesList() {
 		},
 	})
 		.then((response) => response.json())
-		.then((data) =>
-			Object.values(data).map((el) => ({
+		.then((data: ServerResponse) =>
+			Object.values(data).map((el: Message) => ({
 				...el,
-				date: new Date(el.date),
+				date: new Date(el.date || Date.now()),
 			}))
 		);
 }
@@ -31,7 +43,7 @@ async function getMessagesList() {
 //  * @param {string} data.message
 //  * @returns {boolean}
 //  */
-async function sendMessage(data) {
+export async function sendMessage(data: Message): Promise<SendMessageResponse> {
 	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
 		method: "POST",
 		body: JSON.stringify({
@@ -45,7 +57,7 @@ async function sendMessage(data) {
 	}).then((response) => response.json());
 }
 
-function observeWithXHR(cb) {
+export function observeWithXHR(cb: (data: EventData) => void): void {
 	// https://firebase.google.com/docs/reference/rest/database#section-streaming
 	const xhr = new XMLHttpRequest();
 	let lastResponseLength = 0;
@@ -73,7 +85,7 @@ function observeWithXHR(cb) {
 	xhr.send();
 }
 
-function observeWithEventSource(cb) {
+export function observeWithEventSource(cb: (data: EventData) => void): void {
 	// https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
 	const evtSource = new EventSource(
 		`${config.firebaseBaseUrl}/${config.firebaseCollection}`
@@ -100,5 +112,5 @@ getMessagesList()
 
 //   window.sendMessage = sendMessage;
 //   window.getMessagesList = getMessagesList;
-window.observeWithXHR = observeWithXHR;
-window.observeWithEventSource = observeWithEventSource;
+// window.observeWithXHR = observeWithXHR;
+// window.observeWithEventSource = observeWithEventSource;
