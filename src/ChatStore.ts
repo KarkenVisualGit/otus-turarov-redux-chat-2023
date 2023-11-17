@@ -1,41 +1,44 @@
-import chatReducer, { ChatState, ChatActionTypes } from './ChatReducer';
+import chatReducer, { ChatState, ChatActionTypes } from "./ChatReducer";
 
 interface AppState {
   chat: ChatState;
 }
 
 const initialState: AppState = {
-  chat: chatReducer(undefined, { type: 'INIT' })
+	chat: chatReducer(undefined, { type: "INIT" }),
 };
 
-
 class Store {
-  private state: AppState;
-  private listeners: Function[] = [];
+	private state: AppState;
 
-  constructor(private reducer: (state: AppState, action: ChatActionTypes) => AppState, initialState: AppState) {
-    this.state = initialState;
-  }
+	private listeners: Function[] = [];
 
-  getState() {
-    return this.state;
-  }
+	constructor(
+    private reducer: (state: AppState, action: ChatActionTypes) => AppState,
+    initialState: AppState
+	) {
+		this.state = initialState;
+	}
 
-  dispatch(action: ChatActionTypes) {
-    this.state = this.reducer(this.state, action);
-    this.listeners.forEach(listener => listener());
-  }
+	getState() {
+		return this.state;
+	}
 
-  subscribe(listener: Function) {
-    this.listeners.push(listener);
-    return () => {
-      this.listeners = this.listeners.filter(l => l !== listener);
-    };
-  }
+	dispatch(action: ChatActionTypes) {
+		this.state = this.reducer(this.state, action);
+		this.listeners.forEach((listener) => listener());
+	}
+
+	subscribe(listener: Function) {
+		this.listeners.push(listener);
+		return () => {
+			this.listeners = this.listeners.filter((l) => l !== listener);
+		};
+	}
 }
 
 const rootReducer = (state: AppState, action: ChatActionTypes) => ({
-  chat: chatReducer(state.chat, action)
+	chat: chatReducer(state.chat, action),
 });
 
 const store = new Store(rootReducer, initialState);

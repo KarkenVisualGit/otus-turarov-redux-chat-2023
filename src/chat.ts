@@ -1,20 +1,20 @@
-import { Message } from './Actions';
+import { Message } from "./Actions";
 
 interface SendMessageResponse {
-	name: string;
+  name: string;
 }
 
 interface EventData {
-	data: Message;
+  data: Message;
 }
 
 interface ServerResponse {
-	[key: string]: Message;
+  [key: string]: Message;
 }
 
 const config = {
 	firebaseBaseUrl:
-		"https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
 	firebaseCollection: "messages.json",
 };
 
