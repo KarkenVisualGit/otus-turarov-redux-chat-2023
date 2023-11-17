@@ -7,7 +7,7 @@ import {
 	INIT,
 } from "./ActionTypes";
 
-import { Message } from './Actions';
+import { Message } from "./Actions";
 
 export interface GetMessagesAction {
   type: typeof GET_MESSAGES;
@@ -49,7 +49,7 @@ export const initialState: ChatState = {
 	isFetching: false,
 };
 
-const chatReducer = (
+export const chatReducer = (
 	state: ChatState = initialState,
 	action: ChatActionTypes
 ): ChatState => {

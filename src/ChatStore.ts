@@ -8,16 +8,18 @@ const initialState: AppState = {
 	chat: chatReducer(undefined, { type: "INIT" }),
 };
 
+type Listener = () => void;
+
 class Store {
 	private state: AppState;
 
-	private listeners: Function[] = [];
+	private listeners: Listener[] = [];
 
 	constructor(
     private reducer: (state: AppState, action: ChatActionTypes) => AppState,
-    initialState: AppState
+    initState: AppState
 	) {
-		this.state = initialState;
+		this.state = initState;
 	}
 
 	getState() {
@@ -29,7 +31,7 @@ class Store {
 		this.listeners.forEach((listener) => listener());
 	}
 
-	subscribe(listener: Function) {
+	subscribe(listener: Listener) {
 		this.listeners.push(listener);
 		return () => {
 			this.listeners = this.listeners.filter((l) => l !== listener);
