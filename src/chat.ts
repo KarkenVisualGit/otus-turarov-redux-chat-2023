@@ -1,11 +1,7 @@
-import { Message } from "./Actions";
+import { Message, EventData } from "./Actions";
 
 interface SendMessageResponse {
   name: string;
-}
-
-interface EventData {
-  data: Message;
 }
 
 interface ServerResponse {
@@ -93,22 +89,6 @@ export function observeWithEventSource(cb: (data: EventData) => void): void {
 
 	evtSource.addEventListener("put", (ev) => cb(JSON.parse(ev.data).data));
 }
-
-sendMessage({ nickname: "testUser", message: "Hello, this is a test message!" })
-	.then((response) => {
-		console.log("Message sent successfully:", response);
-	})
-	.catch((error) => {
-		console.error("Error sending message:", error);
-	});
-
-getMessagesList()
-	.then((messages) => {
-		console.log("Retrieved messages:", JSON.stringify(messages, null, 2));
-	})
-	.catch((error) => {
-		console.error("Error retrieving messages:", error);
-	});
 
 //   window.sendMessage = sendMessage;
 //   window.getMessagesList = getMessagesList;

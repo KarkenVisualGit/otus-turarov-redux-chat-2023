@@ -1,23 +1,26 @@
 import chatReducer, { ChatState, ChatActionTypes } from "./ChatReducer";
+import { chatMiddleware } from './middleware';
 
 interface AppState {
   chat: ChatState;
 }
 
-const initialState: AppState = {
+export const initialState: AppState = {
 	chat: chatReducer(undefined, { type: "INIT" }),
 };
 
 type Listener = () => void;
 
-class Store {
+export class Store {
 	private state: AppState;
 
 	private listeners: Listener[] = [];
 
 	constructor(
     private reducer: (state: AppState, action: ChatActionTypes) => AppState,
-    initState: AppState
+    initState: AppState,
+	private middleware: (store: Store) => 
+	(next: (action: ChatActionTypes) => void) => (action: ChatActionTypes) => void
 	) {
 		this.state = initState;
 	}
@@ -27,22 +30,30 @@ class Store {
 	}
 
 	dispatch(action: ChatActionTypes) {
-		this.state = this.reducer(this.state, action);
-		this.listeners.forEach((listener) => listener());
+		console.log('Dispatching action:', action);
+		const dispatchWithMiddleware = this.middleware(this)(this.rawDispatch);
+        dispatchWithMiddleware(action);
 	}
 
+	private rawDispatch(action: ChatActionTypes) {
+        this.state = this.reducer(this.state, action);
+        this.listeners.forEach((listener) => listener());
+    }
+
 	subscribe(listener: Listener) {
+		console.log('Subscribed to store');
 		this.listeners.push(listener);
 		return () => {
 			this.listeners = this.listeners.filter((l) => l !== listener);
+			console.log('Unsubscribed from store');
 		};
 	}
 }
 
-const rootReducer = (state: AppState, action: ChatActionTypes) => ({
+export const rootReducer = (state: AppState, action: ChatActionTypes) => ({
 	chat: chatReducer(state.chat, action),
 });
 
-const store = new Store(rootReducer, initialState);
+const store = new Store(rootReducer, initialState, chatMiddleware);
 
 export default store;

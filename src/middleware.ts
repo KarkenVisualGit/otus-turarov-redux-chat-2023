@@ -1,16 +1,14 @@
 import { ChatActionTypes } from "./ChatReducer";
 import { sendMessage, getMessagesList } from "./chat";
+import { Store } from "./ChatStore";
 
-interface Store<S, A> {
-  getState: () => S;
-  dispatch: (action: A) => void;
-}
 
 type Action = ChatActionTypes;
 
-export function chatMiddleware<S>(store: Store<S, Action>) {
+export function chatMiddleware<S>(store: Store) {
 	return function middlewareNext(next: (action: Action) => void) {
 		return function middlewareAction(action: Action) {
+			console.log('Middleware action:', action);
 			switch (action.type) {
 			case "SEND_MESSAGE":
 				sendMessage(action.payload)

@@ -6,9 +6,13 @@ import {
 } from "./ActionTypes";
 
 export interface Message {
-  nickname: string;
-  message: string;
-  date?: Date;
+	nickname: string;
+	message: string;
+	date?: Date;
+}
+
+export interface EventData {
+	data: Message;
 }
 
 export const getMessages = () => ({
