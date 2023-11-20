@@ -87,10 +87,9 @@ export function observeWithEventSource(cb: (data: EventData) => void): void {
 		`${config.firebaseBaseUrl}/${config.firebaseCollection}`
 	);
 
-	evtSource.addEventListener("put", (ev) => cb(JSON.parse(ev.data).data));
+	evtSource.addEventListener("put", (ev) => {
+		cb(JSON.parse(ev.data).data);
+
+	});
 }
 
-//   window.sendMessage = sendMessage;
-//   window.getMessagesList = getMessagesList;
-// window.observeWithXHR = observeWithXHR;
-// window.observeWithEventSource = observeWithEventSource;

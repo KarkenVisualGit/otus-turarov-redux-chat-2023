@@ -35,7 +35,7 @@ export class Store {
         dispatchWithMiddleware(action);
 	}
 
-	private rawDispatch(action: ChatActionTypes) {
+	private rawDispatch = (action: ChatActionTypes) => {
         this.state = this.reducer(this.state, action);
         this.listeners.forEach((listener) => listener());
     }
@@ -44,8 +44,8 @@ export class Store {
 		console.log('Subscribed to store');
 		this.listeners.push(listener);
 		return () => {
+			console.log('Unsubscribing from store');
 			this.listeners = this.listeners.filter((l) => l !== listener);
-			console.log('Unsubscribed from store');
 		};
 	}
 }

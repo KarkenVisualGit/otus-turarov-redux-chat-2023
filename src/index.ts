@@ -1,9 +1,9 @@
 import "./style/style.css";
 
-import { sendMessage, getMessagesList, observeWithEventSource } from './chat';
-import { Message, EventData } from "./Actions";
-import { Store, rootReducer,initialState } from "./ChatStore";
+import { Message } from "./Actions";
+import { Store, rootReducer, initialState } from "./ChatStore";
 import { chatMiddleware } from './middleware';
+import { getMessages, sendMessages, receiveNewMessage } from "./Actions";
 
 const store = new Store(rootReducer, initialState, chatMiddleware);
 
@@ -15,8 +15,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function addMessageToDOM(message: Message): void {
+        if (!message || !message.nickname || !message.message) {
+            console.error('Некорректное сообщение:', message);
+            return;
+        }
         const messageElement = document.createElement('div');
-        messageElement.textContent = `${message.nickname}: ${message.message}`;
+        messageElement.textContent = `${message.date?.toDateString()}:${message.nickname}: ${message.message}`;
         messagesContainer.appendChild(messageElement);
     }
 
@@ -28,31 +32,17 @@ document.addEventListener('DOMContentLoaded', function () {
             message: messageInput.value,
             date: new Date()
         };
-        store.dispatch({ type: 'SEND_MESSAGE', payload: message }); 
-        sendMessage(message).then(() => {
-            addMessageToDOM(message);
-            messageInput.value = '';
-        }).catch((error: Error) => {
-            console.error('Ошибка отправки сообщения:', error);
-        });
+        store.dispatch(sendMessages(message));
+        messageInput.value = '';
     });
+        
 
-
-    function displayMessages(): void {
-        getMessagesList().then((messages: Message[]) => {
-            messages.forEach(addMessageToDOM);
-        }).catch((error: Error) => {
-            console.error('Ошибка получения сообщений:', error);
+        store.subscribe(() => {
+            const state = store.getState();
+            messagesContainer.innerHTML = '';
+            state.chat.messages.forEach(addMessageToDOM);
         });
-    }
 
+        store.dispatch(getMessages());
 
-    displayMessages();
-
-    observeWithEventSource((eventData: EventData) => {
-        if (eventData && eventData.data) {
-            addMessageToDOM(eventData.data);
-        }
     });
-
-});
