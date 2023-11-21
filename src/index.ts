@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const renderedMessageIds = new Set<string>();
 
+    function scrollToBottom(): void {
+        const messagesContainer = document.getElementById('messages') as HTMLDivElement;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
     function addMessageToDOM(message: Message): void {
         if (!message || !message.nickname || !message.message || renderedMessageIds.has(message.id)) {
             console.error('Некорректное сообщение:', message);
@@ -34,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messageElement.appendChild(deleteButton);
         messagesContainer.appendChild(messageElement);
         renderedMessageIds.add(message.id);
+        scrollToBottom();
     }
 
 
