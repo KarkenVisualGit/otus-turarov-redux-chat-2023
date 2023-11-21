@@ -1,7 +1,7 @@
 import { ChatActionTypes } from "./ChatReducer";
-import { sendMessage, getMessagesList, observeWithEventSource, observeWithXHR } from "./chat";
+import { sendMessage, getMessagesList, observeWithEventSource, deleteMessageId } from "./chat";
 import { Store } from "./ChatStore";
-import { EventData, receiveNewMessage } from "./Actions";
+import { EventData, receiveNewMessage, deleteMessage, updateMessages, getMessages } from "./Actions";
 
 
 type Action = ChatActionTypes;
@@ -23,18 +23,6 @@ export function chatMiddleware<S>(store: Store) {
 						});
 					break;
 				case "GET_MESSAGES":
-					if (!isEventSourceInitialized) {
-						observeWithEventSource((eventData: EventData) => {
-							console.log("Dispatching RECIEVE_NEW_MESSAGE action:", eventData);
-							if (eventData && eventData.data) {
-								const messages = Object.values(eventData.data);
-								messages.forEach(message => {
-									store.dispatch(receiveNewMessage(message));
-								});
-							}
-						});
-						isEventSourceInitialized = true;
-					}
 					getMessagesList()
 						.then((messages) => {
 							store.dispatch({ type: "RECEIVE_MESSAGES", payload: messages });
@@ -42,6 +30,35 @@ export function chatMiddleware<S>(store: Store) {
 						.catch((error) => {
 							console.error("Ошибка получения сообщений", error);
 						});
+					break;
+				case "DELETE_MESSAGE":
+					deleteMessageId(action.payload)
+						.then(() => {
+							console.log("Message deleted successfully");
+							store.dispatch(deleteMessage(action.payload));
+							store.dispatch(getMessages());
+						})
+						.catch((error) => {
+							console.error("Ошибка удаления сообщения", error);
+						});
+					break;
+				case "UPDATE_MESSAGES":
+					if (!isEventSourceInitialized) {
+						observeWithEventSource((eventData: EventData) => {
+							if (eventData && eventData.data) {
+								const messages = Object.values(eventData.data);
+								messages.forEach(message => {
+									store.dispatch(deleteMessage(message.id));
+									store.dispatch(receiveNewMessage(message));
+									
+								});
+								store.dispatch(updateMessages(messages));
+								store.dispatch(getMessages());
+
+							}
+						});
+						isEventSourceInitialized = true;
+					}
 					break;
 				default:
 					next(action);

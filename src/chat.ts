@@ -8,6 +8,8 @@ interface ServerResponse {
   [key: string]: Message;
 }
 
+
+
 const config = {
 	firebaseBaseUrl:
     "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -53,6 +55,36 @@ export async function sendMessage(data: Message): Promise<SendMessageResponse> {
 	}).then((response) => response.json());
 }
 
+export async function getMessagesWithIds(): Promise<{[key: string]: Message}> {
+    const response = await fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`);
+    return response.json();
+}
+
+export async function deleteMessageId(messageId: string): Promise<void> {
+	try {
+        const messages = await getMessagesWithIds();
+        const firebaseId = Object.keys(messages).find(key => messages[key].id === messageId);
+        if (!firebaseId) {
+			console.log("Firebase ID:", firebaseId);
+            throw new Error('Message ID not found in Firebase');
+        }
+        const url = `${config.firebaseBaseUrl}/messages/${firebaseId}.json`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        if (!response.ok) {
+			console.log("Response status:", response.status);
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Failed to delete message:', error);
+        throw error; 
+    }
+}
+
 export function observeWithXHR(cb: (data: EventData) => void): void {
 	// https://firebase.google.com/docs/reference/rest/database#section-streaming
 	const xhr = new XMLHttpRequest();
@@ -88,8 +120,21 @@ export function observeWithEventSource(cb: (data: EventData) => void): void {
 	);
 
 	evtSource.addEventListener("put", (ev) => {
+		console.log(JSON.parse(ev.data).data);
 		cb(JSON.parse(ev.data).data);
 
 	});
+	evtSource.addEventListener("delete", (ev) => {
+		console.log(JSON.parse(ev.data).data);
+		cb(JSON.parse(ev.data).data);
+    });
 }
+
+export function generateUniqueId() {
+    const timestamp = new Date().getTime();
+    const randomPart = Math.random().toString(36).substring(2, 15);
+    const uniqueId = `${timestamp}-${randomPart}`;
+    return uniqueId;
+}
+
 

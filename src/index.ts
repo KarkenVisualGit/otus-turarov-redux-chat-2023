@@ -3,7 +3,8 @@ import "./style/style.css";
 import { Message } from "./Actions";
 import { Store, rootReducer, initialState } from "./ChatStore";
 import { chatMiddleware } from './middleware';
-import { getMessages, sendMessages, receiveNewMessage } from "./Actions";
+import { getMessages, sendMessages, deleteMessage } from "./Actions";
+import { generateUniqueId } from "./chat"
 
 const store = new Store(rootReducer, initialState, chatMiddleware);
 
@@ -21,13 +22,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         const messageElement = document.createElement('div');
         messageElement.textContent = `${message.date?.toDateString()}:${message.nickname}: ${message.message}`;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Удалить';
+        deleteButton.addEventListener('click', () => {
+            console.log("Deleting message with ID:", message.id);
+            store.dispatch(deleteMessage(message.id!));
+        });
+        messageElement.appendChild(deleteButton);
         messagesContainer.appendChild(messageElement);
     }
 
 
     messageForm.addEventListener('submit', function (e) {
         e.preventDefault();
+        const messageId = generateUniqueId();
         const message: Message = {
+            id: messageId,
             nickname: nicknameInput.value,
             message: messageInput.value,
             date: new Date()

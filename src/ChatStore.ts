@@ -44,7 +44,6 @@ export class Store {
 		console.log('Subscribed to store');
 		this.listeners.push(listener);
 		return () => {
-			console.log('Unsubscribing from store');
 			this.listeners = this.listeners.filter((l) => l !== listener);
 		};
 	}
