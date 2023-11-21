@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/KarkenVisualGit/otus-turarov-redux-chat-2023#readme",
   "dependencies": {
+    "firebase": "^10.6.0",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {

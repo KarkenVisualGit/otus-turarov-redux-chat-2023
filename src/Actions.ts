@@ -17,7 +17,7 @@ import {
 } from './ChatReducer'
 
 export interface Message {
-	id?: string;
+	id: string;
 	nickname: string;
 	message: string;
 	date?: Date;

@@ -14,9 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const nicknameInput = document.getElementById('nickname') as HTMLInputElement;
     const messagesContainer = document.getElementById('messages') as HTMLDivElement;
 
+    const renderedMessageIds = new Set<string>();
 
     function addMessageToDOM(message: Message): void {
-        if (!message || !message.nickname || !message.message) {
+        if (!message || !message.nickname || !message.message || renderedMessageIds.has(message.id)) {
             console.error('Некорректное сообщение:', message);
             return;
         }
@@ -26,10 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteButton.textContent = 'Удалить';
         deleteButton.addEventListener('click', () => {
             console.log("Deleting message with ID:", message.id);
-            store.dispatch(deleteMessage(message.id!));
+            store.dispatch(deleteMessage(message.id));
+            messageElement.remove();
+            renderedMessageIds.delete(message.id);
         });
         messageElement.appendChild(deleteButton);
         messagesContainer.appendChild(messageElement);
+        renderedMessageIds.add(message.id);
     }
 
 
@@ -49,8 +53,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         store.subscribe(() => {
             const state = store.getState();
-            messagesContainer.innerHTML = '';
-            state.chat.messages.forEach(addMessageToDOM);
+            state.chat.messages.forEach(message => {
+                if (!renderedMessageIds.has(message.id)) {
+                    addMessageToDOM(message);
+                }
+            });
         });
 
         store.dispatch(getMessages());

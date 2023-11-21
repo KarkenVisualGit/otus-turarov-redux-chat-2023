@@ -16,7 +16,7 @@ export function chatMiddleware<S>(store: Store) {
 					sendMessage(action.payload)
 						.then(() => {
 							store.dispatch({ type: "MESSAGE_SENT", payload: action.payload });
-							store.dispatch(receiveNewMessage(action.payload));
+							store.dispatch(getMessages());
 						})
 						.catch((error) => {
 							console.error("Ошибка отправки сообщения", error);
@@ -36,7 +36,6 @@ export function chatMiddleware<S>(store: Store) {
 						.then(() => {
 							console.log("Message deleted successfully");
 							store.dispatch(deleteMessage(action.payload));
-							store.dispatch(getMessages());
 						})
 						.catch((error) => {
 							console.error("Ошибка удаления сообщения", error);
@@ -44,17 +43,14 @@ export function chatMiddleware<S>(store: Store) {
 					break;
 				case "UPDATE_MESSAGES":
 					if (!isEventSourceInitialized) {
+						console.log("Initializing event source for message updates");
 						observeWithEventSource((eventData: EventData) => {
 							if (eventData && eventData.data) {
+								console.log("Message updated successfully");
 								const messages = Object.values(eventData.data);
 								messages.forEach(message => {
-									store.dispatch(deleteMessage(message.id));
 									store.dispatch(receiveNewMessage(message));
-									
 								});
-								store.dispatch(updateMessages(messages));
-								store.dispatch(getMessages());
-
 							}
 						});
 						isEventSourceInitialized = true;

@@ -111,7 +111,7 @@ export const chatReducer = (
 				messages: state.messages.filter(message => message.id !== action.payload)
 			};
 		case UPDATE_MESSAGES:
-			console.log('New state:', state);
+			console.log('New update state:', state);
 			return {
 				...state,
 				messages: action.payload

@@ -8,8 +8,6 @@ interface ServerResponse {
   [key: string]: Message;
 }
 
-
-
 const config = {
 	firebaseBaseUrl:
     "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -19,6 +17,20 @@ const config = {
 // /**
 //  * @return {Object[]} messagesList
 //  */
+// export async function delMessagesFB(id: string): Promise<boolean> {
+// 	const reference = ref(db, `messages/${id}`);
+
+// 	try {
+// 		await remove(reference);
+// 		const allTasks = await this.getAllTasks();
+// 		await this.renderTasks(allTasks);
+// 		return true;
+// 	} catch (error) {
+// 		console.error(error);
+// 		return false;
+// 	}
+// }
+
 export async function getMessagesList(): Promise<Message[]> {
 	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
 		headers: {
