@@ -1,11 +1,12 @@
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import path from "path";
-import glob from "glob";
+/* eslint-disable @typescript-eslint/no-var-requires */
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const path = require("path");
+const glob = require("glob");
 
 const pages = glob.sync("src/*.html");
 
-export default {
+module.exports = {
 	entry: {
 		index: path.resolve(__dirname, "./src/index.ts"),
 		login: path.resolve(__dirname, "./src/login.ts"),
