@@ -141,6 +141,7 @@ input:focus ~ .highlight {
   from {
     background: #4a89dc;
   }
+
   to {
     width: 0;
     background: transparent;
@@ -166,6 +167,7 @@ input:focus ~ .highlight {
   cursor: pointer;
   transition: all 0.15s ease;
 }
+
 .button:focus {
   outline: 0;
 }
@@ -254,53 +256,4 @@ footer img:hover {
 footer img:focus,
 footer a:focus {
   outline: none;
-}
-
-#chat-container {
-  max-width: 400px;
-  margin: auto;
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#messages {
-  height: 300px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-#send-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-#send-form input,
-#send-form button {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-#send-form input {
-  flex-grow: 1;
-  min-width: 60%;
-}
-
-#send-form .send-button {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 30%;
-  cursor: pointer;
-}
-
-@media (max-width: 600px) {
-  #send-form input,
-  #send-form .send-button {
-    flex-basis: 100%;
-  }
 }

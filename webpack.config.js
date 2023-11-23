@@ -9,7 +9,7 @@ const pages = glob.sync("src/*.html");
 module.exports = {
 	entry: {
 		index: path.resolve(__dirname, "./src/index.ts"),
-		login: path.resolve(__dirname, "./src/login.ts"),
+		app: path.resolve(__dirname, "./src/app.ts"),
 	},
 	output: {
 		path: path.resolve(__dirname, "./dist"),

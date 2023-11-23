@@ -1,20 +1,4 @@
 import { Message, EventData } from "./Actions";
-import { initializeApp, FirebaseError } from "firebase/app";
-import {
-	getAuth,
-	onAuthStateChanged,
-	signOut,
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	connectAuthEmulator,
-	AuthErrorCodes
-} from "firebase/auth";
-
-const txtEmail = document.querySelector('#txtEmail') as HTMLInputElement;
-const txtPassword = document.querySelector('#txtPassword') as HTMLInputElement;
-const lblAuthState = document.querySelector('#lblAuthState') as HTMLDivElement;
-const divLoginError = document.querySelector('#divLoginError') as HTMLDivElement;
-const lblLoginErrorMessage = document.querySelector('#lblLoginErrorMessage') as HTMLDivElement;
 
 interface SendMessageResponse {
 	name: string;
@@ -24,25 +8,11 @@ interface ServerResponse {
 	[key: string]: Message;
 }
 
-const firebaseConfig = {
-	apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
-	authDomain: "task-calendar-turarov.firebaseapp.com",
-	databaseURL: "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
-	projectId: "task-calendar-turarov",
-	storageBucket: "task-calendar-turarov.appspot.com",
-	messagingSenderId: "685980356315",
-	appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
-	measurementId: "G-02B3TBFPNX"
-};
-
 const config = {
 	firebaseBaseUrl:
 		"https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
 	firebaseCollection: "messages.json",
 };
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 // const monitorAuthState = async () => {
 // 	onAuthStateChanged(auth, user => {
@@ -70,50 +40,6 @@ const auth = getAuth(app);
 // 	login.style.display = 'none'
 // 	app.style.display = 'block'
 // }
-
-export const hideLoginError = () => {
-	divLoginError.style.display = 'none'
-	lblLoginErrorMessage.innerHTML = ''
-}
-
-const logout = async () => {
-	await signOut(auth);
-}
-
-export const showLoginError = (error: FirebaseError) => {
-	divLoginError.style.display = 'block'
-	if (error.code == AuthErrorCodes.INVALID_PASSWORD) {
-		lblLoginErrorMessage.innerHTML = `Wrong password. Try again.`
-	}
-	else {
-		lblLoginErrorMessage.innerHTML = `Error: ${error.message}`
-	}
-}
-
-connectAuthEmulator(auth, "http://localhost:9000")
-const loginEmailPassword = async () => {
-	const loginEmail = txtEmail.value
-	const loginPassword = txtPassword.value
-
-	await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-
-}
-const createAccount = async () => {
-	const email = txtEmail.value
-	const password = txtPassword.value
-
-	try {
-		await createUserWithEmailAndPassword(auth, email, password)
-	}
-	catch (error) {
-		if (error instanceof FirebaseError) {
-			console.log(`There was a Firebase error: ${error.code}`);
-			showLoginError(error);
-		} else {
-			console.log(`There was a non-Firebase error: ${error}`);
-		}
-	}
-}
 
 export async function getMessagesList(): Promise<Message[]> {
 	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {

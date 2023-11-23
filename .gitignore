@@ -1,5 +1,8 @@
 .cache/
 *.log*
+npm-debug.log*
+firebase-debug.log*
+firebase-debug.*.log*
 .ssh/
 coverage
 /dist

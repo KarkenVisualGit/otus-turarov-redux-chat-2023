@@ -1,71 +1,101 @@
 import "./style/style.css";
+import {
+    hideLoginError,
+    showLoginState,
+    showLoginForm,
+    showApp,
+    showLoginError,
+    btnLogin,
+    btnSignup,
+    btnLogout,
+    txtEmail,
+    txtPassword,
+    lblAuthState
+} from './ui'
 
-import { Message } from "./Actions";
-import { Store, rootReducer, initialState } from "./ChatStore";
-import { chatMiddleware } from './middleware';
-import { getMessages, sendMessages, deleteMessage } from "./Actions";
-import { generateUniqueId } from "./chat"
+import { initializeApp, FirebaseError } from 'firebase/app';
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    connectAuthEmulator,
+    User
+} from 'firebase/auth';
 
-const store = new Store(rootReducer, initialState, chatMiddleware);
+const firebaseApp = initializeApp({
+    apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
+    authDomain: "task-calendar-turarov.firebaseapp.com",
+    databaseURL:
+        "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "task-calendar-turarov",
+    storageBucket: "task-calendar-turarov.appspot.com",
+    messagingSenderId: "685980356315",
+    appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
+    measurementId: "G-02B3TBFPNX",
+});
 
-document.addEventListener('DOMContentLoaded', function () {
-    const messageForm = document.getElementById('send-form') as HTMLFormElement;
-    const messageInput = document.getElementById('message') as HTMLInputElement;
-    const nicknameInput = document.getElementById('nickname') as HTMLInputElement;
-    const messagesContainer = document.getElementById('messages') as HTMLDivElement;
+const auth = getAuth(firebaseApp);
+connectAuthEmulator(auth, "http://localhost:9099");
 
-    const renderedMessageIds = new Set<string>();
+const loginEmailPassword = async (): Promise<void> => {
+    const loginEmail = txtEmail.value
+    const loginPassword = txtPassword.value
 
-    function scrollToBottom(): void {
-        const messagesContainer = document.getElementById('messages') as HTMLDivElement;
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    function addMessageToDOM(message: Message): void {
-        if (!message || !message.nickname || !message.message || renderedMessageIds.has(message.id)) {
-            console.error('Некорректное сообщение:', message);
-            return;
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+        if (userCredential && userCredential.user && userCredential.user.email) {
+            localStorage.setItem('userEmail', userCredential.user.email);
         }
-        const messageElement = document.createElement('div');
-        messageElement.textContent = `${message.date?.toDateString()}:${message.nickname}: ${message.message}`;
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Удалить';
-        deleteButton.addEventListener('click', () => {
-            console.log("Deleting message with ID:", message.id);
-            store.dispatch(deleteMessage(message.id));
-            messageElement.remove();
-            renderedMessageIds.delete(message.id);
-        });
-        messageElement.appendChild(deleteButton);
-        messagesContainer.appendChild(messageElement);
-        renderedMessageIds.add(message.id);
-        scrollToBottom();
-    }
-
-
-    messageForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const messageId = generateUniqueId();
-        const message: Message = {
-            id: messageId,
-            nickname: nicknameInput.value,
-            message: messageInput.value,
-            date: new Date()
-        };
-        store.dispatch(sendMessages(message));
-        messageInput.value = '';
-    });
         
+    }
+    catch (error) {
+        if (error instanceof FirebaseError) {
+            console.log(`There was a Firebase error: ${error.message}`);
+            showLoginError(error);
+        }
+    }
+}
 
-        store.subscribe(() => {
-            const state = store.getState();
-            state.chat.messages.forEach(message => {
-                if (!renderedMessageIds.has(message.id)) {
-                    addMessageToDOM(message);
-                }
-            });
-        });
+const createAccount = async (): Promise<void> => {
+    const email = txtEmail.value
+    const password = txtPassword.value
 
-        store.dispatch(getMessages());
+    try {
+        await createUserWithEmailAndPassword(auth, email, password)
+    }
+    catch (error) {
+        if (error instanceof FirebaseError) {
+            console.log(`There was a Firebase error: ${error.message}`);
+            showLoginError(error);
+        }
+    }
+}
 
-    });
+const monitorAuthState = async (): Promise<void> => {
+    onAuthStateChanged(auth, (user: User | null) => {
+        if (user) {
+            console.log(user);
+            showApp();
+            showLoginState(user);
+
+            hideLoginError();
+            window.location.href = './app.html';
+        }
+        else {
+            showLoginForm();
+            lblAuthState.innerHTML = `You're not logged in.`;
+        }
+    })
+}
+
+const logout = async (): Promise<void> => {
+    await signOut(auth);
+}
+
+btnLogin.addEventListener("click", loginEmailPassword)
+btnSignup.addEventListener("click", createAccount)
+btnLogout.addEventListener("click", logout)
+
+monitorAuthState();
