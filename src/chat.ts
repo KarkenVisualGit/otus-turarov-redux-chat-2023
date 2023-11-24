@@ -14,33 +14,6 @@ const config = {
 	firebaseCollection: "messages.json",
 };
 
-// const monitorAuthState = async () => {
-// 	onAuthStateChanged(auth, user => {
-// 		if (user) {
-// 			console.log(user)
-// 			showApp()
-// 			showLoginState(user)
-
-// 			hideLoginError()
-// 			hideLinkError()
-// 		}
-// 		else {
-// 			showLoginForm()
-// 			lblAuthState.innerHTML = `You're not logged in.`
-// 		}
-// 	})
-// }
-
-// export const showLoginForm = () => {
-// 	login.style.display = 'block'
-// 	app.style.display = 'none'
-// }
-
-// export const showApp = () => {
-// 	login.style.display = 'none'
-// 	app.style.display = 'block'
-// }
-
 export async function getMessagesList(): Promise<Message[]> {
 	return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
 		headers: {

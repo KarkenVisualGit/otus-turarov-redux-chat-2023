@@ -1,20 +1,26 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Чат</title>
-    <!-- <link rel="stylesheet" href="./style/style.css"> -->
-  </head>
-  <body>
-    <div id="chat-container">
-      <div id="messages"></div>
-      <form id="send-form">
-        <input type="text" id="nickname" placeholder="Ваше имя" />
-        <input type="text" id="message" placeholder="Сообщение" />
-        <button type="submit" class="send-button">Отправить</button>
-      </form>
-      <button id="logout">Logout</button>
-    </div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Чат</title>
+  <!-- <link rel="stylesheet" href="./style/style.css"> -->
+</head>
+
+<body>
+  <div id="chat-container">
+    <div id="messages" contenteditable="true"></div>
+    <form id="send-form">
+      <input type="text" id="nickname" placeholder="Ваше имя" />
+      <div id="message" contenteditable="true"></div>
+      <div id="emoji-picker" style="display: none;">
+      </div>
+      <button type="button" id="emoji-picker-button">😊</button>
+      <button type="submit" class="send-button">Отправить</button>
+    </form>
+    <button id="logout">Logout</button>
+  </div>
+</body>
+
 </html>

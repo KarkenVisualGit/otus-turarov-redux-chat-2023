@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 const glob = require("glob");
 
@@ -36,15 +37,36 @@ module.exports = {
 			},
 			{
 				test: /\.html$/,
-				use: "html-loader",
+				exclude: /node_modules/,
+				use: [
+					{
+						loader: "html-loader",
+						options: {
+							sources: {
+								list: [
+									{
+										tag: "source",
+										attribute: "src",
+										type: "src",
+									},
+								],
+							},
+						},
+					},
+				],
+			},
+			{
+				test: /\.(png|gif|svg)$/,
+				type: "asset/inline",
+				generator: {
+					filename: "image/[name]-[hash][ext]",
+				},
 			},
 		],
 	},
 	devServer: {
-		static: {
-			directory: path.join(__dirname, "dist"),
-		},
 		compress: true,
+		open: true,
 		hot: true,
 		port: 9000,
 		allowedHosts: "all",
@@ -59,6 +81,14 @@ module.exports = {
 					chunks: [path.basename(page, path.extname(page))],
 				})
 		),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: path.resolve(__dirname, "./src/image"),
+					to: path.resolve(__dirname, "./dist/image"),
+				},
+			],
+		}),
 		new CleanWebpackPlugin(),
 	],
 };

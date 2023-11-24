@@ -53,13 +53,40 @@
   font-weight: bold;
 }
 
+.emoji {
+  max-height: 1.7em;
+  vertical-align: middle;
+  padding: 3px;
+}
+
+#message {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 20px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  flex-grow: 1;
+  min-width: 60%;
+}
+
+#message:empty:before {
+  content: attr(placeholder);
+  color: grey;
+}
+
 @media (max-width: 600px) {
   #send-form input,
   #send-form .send-button {
     flex-basis: 100%;
   }
+
   #logout {
     padding: 8px;
     font-size: 0.9em;
+  }
+
+  #message {
+    flex-basis: 100%;
   }
 }
