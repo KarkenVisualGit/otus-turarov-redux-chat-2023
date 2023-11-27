@@ -7,7 +7,8 @@ import {
 	INIT,
 	RECEIVE_NEW_MESSAGE,
 	DELETE_MESSAGE,
-	UPDATE_MESSAGES
+	UPDATE_MESSAGES,
+	MESSAGE_DELETED
 } from "./ActionTypes";
 
 import { Message } from "./Actions";
@@ -28,7 +29,6 @@ export interface ReceiveNewMessageAction {
 
 export interface UpdateMessagesAction {
 	type: typeof UPDATE_MESSAGES;
-	payload: Message[];
 }
 
 export interface SendMessageAction {
@@ -50,6 +50,11 @@ export interface DeleteAction {
 	payload: string;
 }
 
+export interface MessageDeleteAction {
+	type: typeof MESSAGE_DELETED;
+	payload: string;
+}
+
 export type ChatActionTypes =
 	| GetMessagesAction
 	| ReceiveMessagesAction
@@ -59,6 +64,7 @@ export type ChatActionTypes =
 	| InitAction
 	| DeleteAction
 	| UpdateMessagesAction
+	| MessageDeleteAction
 
 export interface ChatState {
 	messages: Message[];
@@ -105,16 +111,23 @@ export const chatReducer = (
 				messages: [...state.messages, action.payload]
 			};
 		case DELETE_MESSAGE:
-			console.log('New state:', state);
-			return {
+			const newState = {
 				...state,
 				messages: state.messages.filter(message => message.id !== action.payload)
 			};
+			console.log('Deleting message, new state:', newState);
+			return newState;
+		case MESSAGE_DELETED:
+			const delState = {
+				...state,
+				messages: state.messages.filter(message => message.id !== action.payload)
+			};
+			console.log('Deleting message, new state:', delState);
+			return delState;
 		case UPDATE_MESSAGES:
 			console.log('New update state:', state);
 			return {
-				...state,
-				messages: action.payload
+				...state
 			};
 		default:
 			console.log('New state:', state);

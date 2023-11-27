@@ -34,8 +34,9 @@ export function chatMiddleware<S>(store: Store) {
 				case "DELETE_MESSAGE":
 					deleteMessageId(action.payload)
 						.then(() => {
-							console.log("Message deleted successfully");
-							store.dispatch(deleteMessage(action.payload));
+							console.log('Middleware action:', action);
+							store.dispatch({ type: "MESSAGE_DELETED", payload: action.payload });
+							console.log("Message with action.payload deleted successfully " + action.payload);
 						})
 						.catch((error) => {
 							console.error("Ошибка удаления сообщения", error);

@@ -3,9 +3,9 @@ import "./style/app.css";
 import { Message } from "./Actions";
 import { Store, rootReducer, initialState } from "./ChatStore";
 import { chatMiddleware } from './middleware';
-import { getMessages, sendMessages, deleteMessage } from "./Actions";
+import { getMessages, sendMessages, deleteMessage, updateMessages } from "./Actions";
 import { generateUniqueId } from "./chat";
-import { initializeApp, FirebaseError } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import {
     getAuth,
     signOut,
@@ -101,6 +101,7 @@ const emojis = [
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    store.dispatch(updateMessages());
     const messageForm = document.getElementById('send-form') as HTMLFormElement;
     const messageInput = document.getElementById('message') as HTMLDivElement;
     const logoutButton = document.getElementById('logout') as HTMLButtonElement;
@@ -164,20 +165,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const messageText = document.createElement('span');
         messageText.innerHTML = message.message;
         messageElement.appendChild(messageText);
-        
+
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Удалить';
         deleteButton.addEventListener('click', () => {
-            console.log("Deleting message with ID:", message.id);
+            console.log("Deleting message with ID from DOM:", message.id);
             store.dispatch(deleteMessage(message.id));
+            setTimeout(() => {
+                const state = store.getState();
+                console.log("Current state after deleteMessage:", state);
+            }, 0);
             messageElement.remove();
             renderedMessageIds.delete(message.id);
+            console.log("Message with ID removed from DOM:", message.id);
         });
         messageElement.appendChild(deleteButton);
         messagesContainer.appendChild(messageElement);
         renderedMessageIds.add(message.id);
         scrollToBottom();
     }
+    
 
     logoutButton.addEventListener('click', function () {
         const auth = getAuth();
@@ -211,11 +218,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     store.subscribe(() => {
         const state = store.getState();
+        console.log('Current messages in state:', state.chat.messages);
+        // messagesContainer.innerHTML = '';
         state.chat.messages.forEach(message => {
             if (!renderedMessageIds.has(message.id)) {
                 addMessageToDOM(message);
             }
         });
+        console.log('Current messages in state after addMessage:', state.chat.messages);
     });
 
     store.dispatch(getMessages());

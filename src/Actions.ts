@@ -60,7 +60,6 @@ export const deleteMessage = (messageId: string): DeleteAction => ({
 	payload: messageId
 });
 
-export const updateMessages = (messages: Message[]): UpdateMessagesAction => ({
-	type: UPDATE_MESSAGES,
-	payload: messages
+export const updateMessages = (): UpdateMessagesAction => ({
+	type: UPDATE_MESSAGES
 });
