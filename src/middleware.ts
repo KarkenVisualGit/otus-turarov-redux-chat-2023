@@ -1,10 +1,11 @@
 import { ChatActionTypes } from "./ChatReducer";
-import { sendMessage, 
-	getMessagesList, 
-	observeWithEventSource, 
-	deleteMessageId, 
+import {
+	sendMessage,
+	getMessagesList,
+	observeWithEventSource,
+	deleteMessageId,
 	EventDataRec,
- } from "./chat";
+} from "./chat";
 import { Store } from "./ChatStore";
 import {
 	EventData,
@@ -56,18 +57,38 @@ export function chatMiddleware<S>(store: Store) {
 					break;
 				case "UPDATE_MESSAGES":
 					console.log("Initializing event source for message updates");
-					observeWithEventSource((eventData: EventDataRec) => {
+					observeWithEventSource((eventData: EventDataRec | Message) => {
 						if (eventData) {
-							console.log(Object.values(eventData));
-							const messages = Object.values(eventData) as Message[];;
-							console.log("Received messages:", messages);
-							messages.forEach((message: Message) => {
+							if (eventData && 'id' in eventData) {
+								const message = {
+									...eventData as Message,
+									date: new Date((eventData as Message).date)
+								};
+
 								store.dispatch({
 									type: 'RECEIVE_NEW_MESSAGE',
 									payload: message
 								});
-							});
+							}
+							else if (typeof eventData === 'object') {
+								const messages = Object.values(eventData).map(item => {
+									if (typeof item === 'object' && item && 'id' in item) {
+										return {
+											...item as Message,
+											date: new Date((item as Message).date)
+										};
+									}
+									return item;
+								}) as Message[];
+								messages.forEach((message: Message) => {
+									store.dispatch({
+										type: 'RECEIVE_NEW_MESSAGE',
+										payload: message
+									});
+								});
+							}
 						}
+
 					});
 
 					break;

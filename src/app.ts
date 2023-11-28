@@ -161,11 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Некорректное сообщение:', message);
             return;
         }
-        const date = new Date(message.date);
-        console.log('Date check', date);
         const messageElement = document.createElement('div');
         console.log('Message', message);
-        messageElement.innerHTML = `${date.toDateString()}:${message.nickname}: `;
+        messageElement.innerHTML = `${message.date}:${message.nickname}: `;
         const messageText = document.createElement('span');
         messageText.innerHTML = message.message;
         messageElement.appendChild(messageText);

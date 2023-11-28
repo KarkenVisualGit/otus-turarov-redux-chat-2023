@@ -120,7 +120,14 @@ export function observeWithEventSource(cb: (data: EventDataRec) => void): void {
 
 	evtSource.addEventListener("put", (ev) => {
 		const data = JSON.parse(ev.data).data;
-		console.log(data);
+		console.log('JSON.parse(ev.data)', data);
+		cb(data);
+
+	});
+
+	evtSource.addEventListener("delete", (ev) => {
+		const data = JSON.parse(ev.data).data;
+		console.log('JSON.parse(ev.data)', data);
 		cb(data);
 
 	});

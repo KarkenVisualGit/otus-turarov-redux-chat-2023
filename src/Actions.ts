@@ -20,7 +20,7 @@ export interface Message {
 	id: string;
 	nickname: string;
 	message: string;
-	date: Date;
+	date: Date
 }
 
 export interface FirebaseMessageRecord {
