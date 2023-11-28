@@ -104,8 +104,12 @@ export const chatReducer = (
 		case MESSAGE_SENT:
 			console.log('New state:', state);
 			return state;
-		case RECEIVE_NEW_MESSAGE:
+		case RECEIVE_NEW_MESSAGE:	
 			console.log('Handling RECEIVE_NEW_MESSAGE:', action.payload);
+			console.log('Check action payload', !action.payload);
+			if (!action.payload) {
+				console.error('Invalid message structure:', action.payload);
+			}
 			return {
 				...state,
 				messages: [...state.messages, action.payload]

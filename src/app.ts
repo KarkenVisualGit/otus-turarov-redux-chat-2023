@@ -156,12 +156,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function addMessageToDOM(message: Message): void {
-        if (!message || !message.nickname || !message.message || renderedMessageIds.has(message.id)) {
+        
+        if (!message || renderedMessageIds.has(message.id)) {
             console.error('Некорректное сообщение:', message);
             return;
         }
+        const date = new Date(message.date);
+        console.log('Date check', date);
         const messageElement = document.createElement('div');
-        messageElement.innerHTML = `${message.date?.toDateString()}:${message.nickname}: `;
+        console.log('Message', message);
+        messageElement.innerHTML = `${date.toDateString()}:${message.nickname}: `;
         const messageText = document.createElement('span');
         messageText.innerHTML = message.message;
         messageElement.appendChild(messageText);
@@ -219,7 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
     store.subscribe(() => {
         const state = store.getState();
         console.log('Current messages in state:', state.chat.messages);
-        // messagesContainer.innerHTML = '';
         state.chat.messages.forEach(message => {
             if (!renderedMessageIds.has(message.id)) {
                 addMessageToDOM(message);

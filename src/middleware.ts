@@ -1,11 +1,23 @@
 import { ChatActionTypes } from "./ChatReducer";
-import { sendMessage, getMessagesList, observeWithEventSource, deleteMessageId } from "./chat";
+import { sendMessage, 
+	getMessagesList, 
+	observeWithEventSource, 
+	deleteMessageId, 
+	EventDataRec,
+ } from "./chat";
 import { Store } from "./ChatStore";
-import { EventData, receiveNewMessage, deleteMessage, updateMessages, getMessages } from "./Actions";
+import {
+	EventData,
+	receiveNewMessage,
+	deleteMessage,
+	updateMessages,
+	getMessages,
+	Message
+} from "./Actions";
 
 
 type Action = ChatActionTypes;
-let isEventSourceInitialized = false;
+
 
 export function chatMiddleware<S>(store: Store) {
 	return function middlewareNext(next: (action: Action) => void) {
@@ -43,20 +55,23 @@ export function chatMiddleware<S>(store: Store) {
 						});
 					break;
 				case "UPDATE_MESSAGES":
-					if (!isEventSourceInitialized) {
-						console.log("Initializing event source for message updates");
-						observeWithEventSource((eventData: EventData) => {
-							if (eventData && eventData.data) {
-								console.log("Message updated successfully");
-								const messages = Object.values(eventData.data);
-								messages.forEach(message => {
-									store.dispatch(receiveNewMessage(message));
+					console.log("Initializing event source for message updates");
+					observeWithEventSource((eventData: EventDataRec) => {
+						if (eventData) {
+							console.log(Object.values(eventData));
+							const messages = Object.values(eventData) as Message[];;
+							console.log("Received messages:", messages);
+							messages.forEach((message: Message) => {
+								store.dispatch({
+									type: 'RECEIVE_NEW_MESSAGE',
+									payload: message
 								});
-							}
-						});
-						isEventSourceInitialized = true;
-					}
+							});
+						}
+					});
+
 					break;
+
 				default:
 					next(action);
 					break;

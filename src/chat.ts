@@ -1,11 +1,15 @@
 import { Message, EventData } from "./Actions";
 
-interface SendMessageResponse {
+export interface SendMessageResponse {
 	name: string;
 }
 
-interface ServerResponse {
+export interface ServerResponse {
 	[key: string]: Message;
+}
+
+export interface EventDataRec {
+    data: ServerResponse;
 }
 
 const config = {
@@ -108,20 +112,17 @@ export function observeWithXHR(cb: (data: EventData) => void): void {
 	xhr.send();
 }
 
-export function observeWithEventSource(cb: (data: EventData) => void): void {
+export function observeWithEventSource(cb: (data: EventDataRec) => void): void {
 	// https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
 	const evtSource = new EventSource(
 		`${config.firebaseBaseUrl}/${config.firebaseCollection}`
 	);
 
 	evtSource.addEventListener("put", (ev) => {
-		console.log(JSON.parse(ev.data).data);
-		cb(JSON.parse(ev.data).data);
+		const data = JSON.parse(ev.data).data;
+		console.log(data);
+		cb(data);
 
-	});
-	evtSource.addEventListener("delete", (ev) => {
-		console.log(JSON.parse(ev.data).data);
-		cb(JSON.parse(ev.data).data);
 	});
 }
 
