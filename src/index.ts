@@ -23,18 +23,9 @@ import {
     connectAuthEmulator,
     User
 } from 'firebase/auth';
+import { firebaseConfig } from './chat';
 
-const firebaseApp = initializeApp({
-    apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
-    authDomain: "task-calendar-turarov.firebaseapp.com",
-    databaseURL:
-        "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "task-calendar-turarov",
-    storageBucket: "task-calendar-turarov.appspot.com",
-    messagingSenderId: "685980356315",
-    appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
-    measurementId: "G-02B3TBFPNX",
-});
+const firebaseApp = initializeApp(firebaseConfig);
 
 const auth = getAuth(firebaseApp);
 connectAuthEmulator(auth, "http://localhost:9099");

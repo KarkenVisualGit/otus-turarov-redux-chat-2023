@@ -23,7 +23,6 @@ type Action = ChatActionTypes;
 export function chatMiddleware<S>(store: Store) {
 	return function middlewareNext(next: (action: Action) => void) {
 		return function middlewareAction(action: Action) {
-			console.log('Middleware action:', action);
 			switch (action.type) {
 				case "SEND_MESSAGE":
 					sendMessage(action.payload)
@@ -47,16 +46,14 @@ export function chatMiddleware<S>(store: Store) {
 				case "DELETE_MESSAGE":
 					deleteMessageId(action.payload)
 						.then(() => {
-							console.log('Middleware action:', action);
 							store.dispatch({ type: "MESSAGE_DELETED", payload: action.payload });
-							console.log("Message with action.payload deleted successfully " + action.payload);
 						})
 						.catch((error) => {
+							store.dispatch({ type: "MESSAGE_DELETED", payload: action.payload });
 							console.error("Ошибка удаления сообщения", error);
 						});
 					break;
 				case "UPDATE_MESSAGES":
-					console.log("Initializing event source for message updates");
 					observeWithEventSource((eventData: EventDataRec | Message) => {
 						if (eventData) {
 							if (eventData && 'id' in eventData) {
@@ -65,12 +62,9 @@ export function chatMiddleware<S>(store: Store) {
 									date: new Date((eventData as Message).date)
 								};
 
-								store.dispatch({
-									type: 'RECEIVE_NEW_MESSAGE',
-									payload: message
-								});
+								store.dispatch({ type: "RECEIVE_NEW_MESSAGE", payload: message });
 							}
-							else if (typeof eventData === 'object') {
+							else if (typeof eventData === 'object' && !('id' in eventData)) {
 								const messages = Object.values(eventData).map(item => {
 									if (typeof item === 'object' && item && 'id' in item) {
 										return {
@@ -81,10 +75,7 @@ export function chatMiddleware<S>(store: Store) {
 									return item;
 								}) as Message[];
 								messages.forEach((message: Message) => {
-									store.dispatch({
-										type: 'RECEIVE_NEW_MESSAGE',
-										payload: message
-									});
+									store.dispatch({ type: "RECEIVE_NEW_MESSAGE", payload: message });
 								});
 							}
 						}

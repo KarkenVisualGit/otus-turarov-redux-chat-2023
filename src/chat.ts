@@ -1,5 +1,16 @@
 import { Message, EventData } from "./Actions";
 
+export const firebaseConfig = {
+	apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
+	authDomain: "task-calendar-turarov.firebaseapp.com",
+	databaseURL: "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+	projectId: "task-calendar-turarov",
+	storageBucket: "task-calendar-turarov.appspot.com",
+	messagingSenderId: "685980356315",
+	appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
+	measurementId: "G-02B3TBFPNX"
+};
+
 export interface SendMessageResponse {
 	name: string;
 }
@@ -9,7 +20,7 @@ export interface ServerResponse {
 }
 
 export interface EventDataRec {
-    data: ServerResponse;
+	data: ServerResponse;
 }
 
 const config = {
@@ -64,7 +75,6 @@ export async function deleteMessageId(messageId: string): Promise<void> {
 		const messages = await getMessagesWithIds();
 		const firebaseId = Object.keys(messages).find(key => messages[key].id === messageId);
 		if (!firebaseId) {
-			console.log("Firebase ID:", firebaseId);
 			throw new Error('Message ID not found in Firebase');
 		}
 		const url = `${config.firebaseBaseUrl}/messages/${firebaseId}.json`;
@@ -75,11 +85,9 @@ export async function deleteMessageId(messageId: string): Promise<void> {
 			}
 		});
 		if (!response.ok) {
-			console.log("Response status:", response.status);
 			throw new Error('Network response was not ok');
 		}
 	} catch (error) {
-		console.error('Failed to delete message:', error);
 		throw error;
 	}
 }
@@ -120,17 +128,10 @@ export function observeWithEventSource(cb: (data: EventDataRec) => void): void {
 
 	evtSource.addEventListener("put", (ev) => {
 		const data = JSON.parse(ev.data).data;
-		console.log('JSON.parse(ev.data)', data);
 		cb(data);
 
 	});
 
-	evtSource.addEventListener("delete", (ev) => {
-		const data = JSON.parse(ev.data).data;
-		console.log('JSON.parse(ev.data)', data);
-		cb(data);
-
-	});
 }
 
 export function generateUniqueId() {

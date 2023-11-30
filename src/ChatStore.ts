@@ -30,7 +30,6 @@ export class Store {
 	}
 
 	dispatch(action: ChatActionTypes) {
-		console.log('Dispatching action:', action);
 		const dispatchWithMiddleware = this.middleware(this)(this.rawDispatch);
         dispatchWithMiddleware(action);
 	}
@@ -41,7 +40,6 @@ export class Store {
     }
 
 	subscribe(listener: Listener) {
-		console.log('Subscribed to store');
 		this.listeners.push(listener);
 		return () => {
 			this.listeners = this.listeners.filter((l) => l !== listener);

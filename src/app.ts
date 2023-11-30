@@ -6,23 +6,14 @@ import { chatMiddleware } from './middleware';
 import { getMessages, sendMessages, deleteMessage, updateMessages } from "./Actions";
 import { generateUniqueId } from "./chat";
 import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './chat';
 import {
     getAuth,
     signOut,
     connectAuthEmulator
 } from 'firebase/auth';
 
-const firebaseApp = initializeApp({
-    apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
-    authDomain: "task-calendar-turarov.firebaseapp.com",
-    databaseURL:
-        "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "task-calendar-turarov",
-    storageBucket: "task-calendar-turarov.appspot.com",
-    messagingSenderId: "685980356315",
-    appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
-    measurementId: "G-02B3TBFPNX",
-});
+const firebaseApp = initializeApp(firebaseConfig);
 
 const auth = getAuth(firebaseApp);
 connectAuthEmulator(auth, "http://localhost:9099");
@@ -162,8 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         const messageElement = document.createElement('div');
-        console.log('Message', message);
-        messageElement.innerHTML = `${message.date}:${message.nickname}: `;
+        messageElement.innerHTML = `${message.date.toLocaleString("en-GB")}:${message.nickname}: `;
         const messageText = document.createElement('span');
         messageText.innerHTML = message.message;
         messageElement.appendChild(messageText);
@@ -171,15 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Удалить';
         deleteButton.addEventListener('click', () => {
-            console.log("Deleting message with ID from DOM:", message.id);
             store.dispatch(deleteMessage(message.id));
-            setTimeout(() => {
-                const state = store.getState();
-                console.log("Current state after deleteMessage:", state);
-            }, 0);
             messageElement.remove();
             renderedMessageIds.delete(message.id);
-            console.log("Message with ID removed from DOM:", message.id);
         });
         messageElement.appendChild(deleteButton);
         messagesContainer.appendChild(messageElement);
