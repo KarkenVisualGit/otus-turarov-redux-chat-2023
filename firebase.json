@@ -1,21 +1,17 @@
 {
-    "emulators": {
-      "auth": {
-        "port": 9099
-      },
-      "hosting": {
-        "port": 5002
-      },
-      "ui": {
-        "enabled": true
-      }
+  "emulators": {
+    "auth": {
+      "port": 9099
     },
     "hosting": {
-      "public": "dist",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
+      "port": 5002
+    },
+    "ui": {
+      "enabled": true
     }
+  },
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
+}

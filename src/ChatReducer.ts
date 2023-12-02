@@ -8,67 +8,67 @@ import {
 	RECEIVE_NEW_MESSAGE,
 	DELETE_MESSAGE,
 	UPDATE_MESSAGES,
-	MESSAGE_DELETED
+	MESSAGE_DELETED,
 } from "./ActionTypes";
 
 import { Message } from "./Actions";
 
 export interface GetMessagesAction {
-	type: typeof GET_MESSAGES;
+  type: typeof GET_MESSAGES;
 }
 
 export interface ReceiveMessagesAction {
-	type: typeof RECEIVE_MESSAGES;
-	payload: Message[];
+  type: typeof RECEIVE_MESSAGES;
+  payload: Message[];
 }
 
 export interface ReceiveNewMessageAction {
-	type: typeof RECEIVE_NEW_MESSAGE;
-	payload: Message;
+  type: typeof RECEIVE_NEW_MESSAGE;
+  payload: Message;
 }
 
 export interface UpdateMessagesAction {
-	type: typeof UPDATE_MESSAGES;
+  type: typeof UPDATE_MESSAGES;
 }
 
 export interface SendMessageAction {
-	type: typeof SEND_MESSAGE;
-	payload: Message;
+  type: typeof SEND_MESSAGE;
+  payload: Message;
 }
 
 export interface MessageSentAction {
-	type: typeof MESSAGE_SENT;
-	payload: Message;
+  type: typeof MESSAGE_SENT;
+  payload: Message;
 }
 
 export interface InitAction {
-	type: typeof INIT;
+  type: typeof INIT;
 }
 
 export interface DeleteAction {
-	type: typeof DELETE_MESSAGE;
-	payload: string;
+  type: typeof DELETE_MESSAGE;
+  payload: string;
 }
 
 export interface MessageDeleteAction {
-	type: typeof MESSAGE_DELETED;
-	payload: string;
+  type: typeof MESSAGE_DELETED;
+  payload: string;
 }
 
 export type ChatActionTypes =
-	| GetMessagesAction
-	| ReceiveMessagesAction
-	| ReceiveNewMessageAction
-	| SendMessageAction
-	| MessageSentAction
-	| InitAction
-	| DeleteAction
-	| UpdateMessagesAction
-	| MessageDeleteAction
+  | GetMessagesAction
+  | ReceiveMessagesAction
+  | ReceiveNewMessageAction
+  | SendMessageAction
+  | MessageSentAction
+  | InitAction
+  | DeleteAction
+  | UpdateMessagesAction
+  | MessageDeleteAction;
 
 export interface ChatState {
-	messages: Message[];
-	isFetching: boolean;
+  messages: Message[];
+  isFetching: boolean;
 }
 
 export const initialState: ChatState = {
@@ -81,51 +81,58 @@ export const chatReducer = (
 	action: ChatActionTypes
 ): ChatState => {
 	switch (action.type) {
-		case INIT:
-			return initialState;
-		case GET_MESSAGES:
-			return {
-				...state,
-				isFetching: true,
-			};
-		case RECEIVE_MESSAGES:
-			return {
-				...state,
-				messages: action.payload,
-				isFetching: false,
-			};
-		case SEND_MESSAGE:
-			return state;
-		case MESSAGE_SENT:
-			return state;
-		case RECEIVE_NEW_MESSAGE:	
-			if (!action.payload) {
-				console.error('Invalid message structure:', action.payload);
-			}
-			return {
-				...state,
-				messages: [...state.messages, action.payload]
-			};
-		case DELETE_MESSAGE:
-			const newState = {
-				...state,
-				messages: state.messages.filter(message => message.id !== action.payload)
-			};
-			console.log('Deleting message, new state:', newState);
-			return newState;
-		case MESSAGE_DELETED:
-			const delState = {
-				...state,
-				messages: state.messages.filter(message => message.id !== action.payload)
-			};
-			console.log('Deleting message, new state:', delState);
-			return delState;
-		case UPDATE_MESSAGES:
-			return {
-				...state
-			};
-		default:
-			return state;
+	case INIT: {
+		return initialState;
+	}
+	case GET_MESSAGES: {
+		return {
+			...state,
+			isFetching: true,
+		};
+	}
+	case RECEIVE_MESSAGES:
+		return {
+			...state,
+			messages: action.payload,
+			isFetching: false,
+		};
+	case SEND_MESSAGE:
+		return state;
+	case MESSAGE_SENT:
+		return state;
+	case RECEIVE_NEW_MESSAGE:
+		if (!action.payload) {
+			// eslint-disable-next-line no-console
+			console.error("Invalid message structure:", action.payload);
+		}
+		return {
+			...state,
+			messages: [...state.messages, action.payload],
+		};
+	case DELETE_MESSAGE: {
+		const newState = {
+			...state,
+			messages: state.messages.filter(
+				(message) => message.id !== action.payload
+			),
+		};
+		return newState;
+	}
+	case MESSAGE_DELETED: {
+		const delState = {
+			...state,
+			messages: state.messages.filter(
+				(message) => message.id !== action.payload
+			),
+		};
+		return delState;
+	}
+	case UPDATE_MESSAGES:
+		return {
+			...state,
+		};
+	default:
+		return state;
 	}
 };
 

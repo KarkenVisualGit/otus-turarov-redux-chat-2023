@@ -2,10 +2,11 @@ module.exports = {
 	env: {
 		"browser": true,
 		"es2021": true,
-		"jest/globals": true
+		"jest/globals": true,
 	},
 	extends: [
 		"airbnb-base",
+		"plugin:import/typescript",
 		"eslint:recommended",
 		"plugin:jest/recommended",
 		"plugin:@typescript-eslint/recommended",
@@ -13,10 +14,7 @@ module.exports = {
 	],
 	overrides: [
 		{
-			env: {
-				node: true,
-			},
-			files: [".eslintrc.{js,cjs}"],
+			files: [".eslintrc.{js,cjs,ts}"],
 			parserOptions: {
 				sourceType: "script",
 			},
@@ -29,7 +27,13 @@ module.exports = {
 	},
 	plugins: ["@typescript-eslint"],
 	rules: {
-		"import/extensions": ["warn", "never"],
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+				ts: "never",
+			},
+		],
 		"import/prefer-default-export": "warn",
 		"jest/valid-title": "warn",
 		"no-console": "warn",

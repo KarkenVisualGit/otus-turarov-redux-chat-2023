@@ -3,29 +3,30 @@ import { Message, EventData } from "./Actions";
 export const firebaseConfig = {
 	apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
 	authDomain: "task-calendar-turarov.firebaseapp.com",
-	databaseURL: "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+	databaseURL:
+    "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
 	projectId: "task-calendar-turarov",
 	storageBucket: "task-calendar-turarov.appspot.com",
 	messagingSenderId: "685980356315",
 	appId: "1:685980356315:web:b12ef3cf06c0bef5a646fe",
-	measurementId: "G-02B3TBFPNX"
+	measurementId: "G-02B3TBFPNX",
 };
 
 export interface SendMessageResponse {
-	name: string;
+  name: string;
 }
 
 export interface ServerResponse {
-	[key: string]: Message;
+  [key: string]: Message;
 }
 
 export interface EventDataRec {
-	data: ServerResponse;
+  data: ServerResponse;
 }
 
 const config = {
 	firebaseBaseUrl:
-		"https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
 	firebaseCollection: "messages.json",
 };
 
@@ -65,30 +66,32 @@ export async function sendMessage(data: Message): Promise<SendMessageResponse> {
 	}).then((response) => response.json());
 }
 
-export async function getMessagesWithIds(): Promise<{ [key: string]: Message }> {
-	const response = await fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`);
+export async function getMessagesWithIds(): Promise<{
+  [key: string]: Message;
+}> {
+	const response = await fetch(
+		`${config.firebaseBaseUrl}/${config.firebaseCollection}`
+	);
 	return response.json();
 }
 
 export async function deleteMessageId(messageId: string): Promise<void> {
-	try {
-		const messages = await getMessagesWithIds();
-		const firebaseId = Object.keys(messages).find(key => messages[key].id === messageId);
-		if (!firebaseId) {
-			throw new Error('Message ID not found in Firebase');
-		}
-		const url = `${config.firebaseBaseUrl}/messages/${firebaseId}.json`;
-		const response = await fetch(url, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			}
-		});
-		if (!response.ok) {
-			throw new Error('Network response was not ok');
-		}
-	} catch (error) {
-		throw error;
+	const messages = await getMessagesWithIds();
+	const firebaseId = Object.keys(messages).find(
+		(key) => messages[key].id === messageId
+	);
+	if (!firebaseId) {
+		throw new Error("Message ID not found in Firebase");
+	}
+	const url = `${config.firebaseBaseUrl}/messages/${firebaseId}.json`;
+	const response = await fetch(url, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	if (!response.ok) {
+		throw new Error("Network response was not ok");
 	}
 }
 
@@ -127,11 +130,9 @@ export function observeWithEventSource(cb: (data: EventDataRec) => void): void {
 	);
 
 	evtSource.addEventListener("put", (ev) => {
-		const data = JSON.parse(ev.data).data;
+		const { data } = JSON.parse(ev.data);
 		cb(data);
-
 	});
-
 }
 
 export function generateUniqueId() {
@@ -140,5 +141,3 @@ export function generateUniqueId() {
 	const uniqueId = `${timestamp}-${randomPart}`;
 	return uniqueId;
 }
-
-

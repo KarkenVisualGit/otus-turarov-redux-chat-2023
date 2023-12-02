@@ -1,5 +1,4 @@
-import chatReducer, { ChatState, ChatActionTypes } from "./ChatReducer";
-import { chatMiddleware } from './middleware';
+import { chatReducer, ChatState, ChatActionTypes } from "./ChatReducer";
 
 interface AppState {
   chat: ChatState;
@@ -19,8 +18,11 @@ export class Store {
 	constructor(
     private reducer: (state: AppState, action: ChatActionTypes) => AppState,
     initState: AppState,
-	private middleware: (store: Store) => 
-	(next: (action: ChatActionTypes) => void) => (action: ChatActionTypes) => void
+    private middleware: (
+      store: Store
+    ) => (
+      next: (action: ChatActionTypes) => void
+    ) => (action: ChatActionTypes) => void
 	) {
 		this.state = initState;
 	}
@@ -31,13 +33,13 @@ export class Store {
 
 	dispatch(action: ChatActionTypes) {
 		const dispatchWithMiddleware = this.middleware(this)(this.rawDispatch);
-        dispatchWithMiddleware(action);
+		dispatchWithMiddleware(action);
 	}
 
 	private rawDispatch = (action: ChatActionTypes) => {
-        this.state = this.reducer(this.state, action);
-        this.listeners.forEach((listener) => listener());
-    }
+		this.state = this.reducer(this.state, action);
+		this.listeners.forEach((listener) => listener());
+	};
 
 	subscribe(listener: Listener) {
 		this.listeners.push(listener);
@@ -50,7 +52,3 @@ export class Store {
 export const rootReducer = (state: AppState, action: ChatActionTypes) => ({
 	chat: chatReducer(state.chat, action),
 });
-
-const store = new Store(rootReducer, initialState, chatMiddleware);
-
-export default store;

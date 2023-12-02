@@ -5,34 +5,34 @@ import {
 	MESSAGE_SENT,
 	RECEIVE_NEW_MESSAGE,
 	DELETE_MESSAGE,
-	UPDATE_MESSAGES
+	UPDATE_MESSAGES,
 } from "./ActionTypes";
 
 import {
-	SendMessageAction,
-	GetMessagesAction,
-	ReceiveNewMessageAction,
-	DeleteAction,
-	UpdateMessagesAction
-} from './ChatReducer'
+	type SendMessageAction,
+	type GetMessagesAction,
+	type ReceiveNewMessageAction,
+	type DeleteAction,
+	type UpdateMessagesAction,
+} from "./ChatReducer";
 
 export interface Message {
-	id: string;
-	nickname: string;
-	message: string;
-	date: Date
+  id: string;
+  nickname: string;
+  message: string;
+  date: Date;
 }
 
 export interface FirebaseMessageRecord {
-    [key: string]: Message;
+  [key: string]: Message;
 }
 
 export interface EventData {
-	data: Message;
+  data: Message;
 }
 
 export interface EventDataArray {
-    data: Message[];
+  data: Message[];
 }
 
 export const getMessages = (): GetMessagesAction => ({
@@ -54,16 +54,18 @@ export const messageSent = (message: Message) => ({
 	payload: message,
 });
 
-export const receiveNewMessage = (message: Message): ReceiveNewMessageAction => ({
+export const receiveNewMessage = (
+	message: Message
+): ReceiveNewMessageAction => ({
 	type: RECEIVE_NEW_MESSAGE,
 	payload: message,
 });
 
 export const deleteMessage = (messageId: string): DeleteAction => ({
 	type: DELETE_MESSAGE,
-	payload: messageId
+	payload: messageId,
 });
 
 export const updateMessages = (): UpdateMessagesAction => ({
-	type: UPDATE_MESSAGES
+	type: UPDATE_MESSAGES,
 });
