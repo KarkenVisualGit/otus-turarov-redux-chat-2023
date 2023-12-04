@@ -35,23 +35,39 @@ export const lblLoginErrorMessage = document.querySelector(
 ) as HTMLDivElement;
 
 export const showLoginForm = (): void => {
-	login.style.display = "block";
-	app.style.display = "none";
+	if (login) {
+		login.style.display = "block";
+	}
+	if (app) {
+		app.style.display = "none";
+	}
+
 };
 
 export const showApp = (): void => {
-	login.style.display = "none";
-	app.style.display = "block";
+	if (login) {
+		login.style.display = "none";
+	}
+	if (app) {
+		app.style.display = "block";
+	}
+
 };
 
 export const hideLoginError = (): void => {
-	divLoginError.style.display = "none";
-	lblLoginErrorMessage.innerHTML = "";
+	if (divLoginError) {
+		divLoginError.style.display = "none";
+	}
+	if (lblLoginErrorMessage) {
+		lblLoginErrorMessage.innerHTML = "";
+	}
 };
 
 export const showLoginError = (error: FirebaseError): void => {
-	divLoginError.style.display = "block";
-	if (error.code === AuthErrorCodes.INVALID_PASSWORD) {
+	if (divLoginError) {
+		divLoginError.style.display = "block";
+	}
+	if (error.code === AuthErrorCodes.INVALID_PASSWORD && lblLoginErrorMessage) {
 		lblLoginErrorMessage.innerHTML = "Wrong password. Try again.";
 	} else {
 		lblLoginErrorMessage.innerHTML = `Error: ${error.message}`;
@@ -59,8 +75,11 @@ export const showLoginError = (error: FirebaseError): void => {
 };
 
 export const showLoginState = (user: User): void => {
-	lblAuthState.innerHTML = `You're logged in as 
+	if (lblAuthState) {
+		lblAuthState.innerHTML = `You're logged in as 
   ${user.displayName} (uid: ${user.uid}, email: ${user.email}) `;
+	}
+
 };
 
 hideLoginError();
