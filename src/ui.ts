@@ -6,8 +6,8 @@ export const txtPassword = document.querySelector(
 	"#txtPassword"
 ) as HTMLInputElement;
 
-export const login = document.querySelector("#login") as HTMLDivElement;
-export const app = document.querySelector("#app") as HTMLDivElement;
+// export const login = document.querySelector("#login") as HTMLDivElement;
+// export const app = document.querySelector("#app") as HTMLDivElement;
 
 export const btnLogin = document.querySelector(
 	"#btnLogin"
@@ -27,24 +27,28 @@ export const lblAuthState = document.querySelector(
 	"#lblAuthState"
 ) as HTMLDivElement;
 
-export const divLoginError = document.querySelector(
-	"#divLoginError"
-) as HTMLDivElement;
-export const lblLoginErrorMessage = document.querySelector(
-	"#lblLoginErrorMessage"
-) as HTMLDivElement;
+// export const divLoginError = document.querySelector(
+// 	"#divLoginError"
+// ) as HTMLDivElement;
+// export const lblLoginErrorMessage = document.querySelector(
+// 	"#lblLoginErrorMessage"
+// ) as HTMLDivElement;
 
 export const showLoginForm = (): void => {
+	const login = document.querySelector("#login") as HTMLDivElement;
+	const app = document.querySelector("#app") as HTMLDivElement;
 	if (login) {
-		login.style.display = "block";
+		login.style.display = 'block'
 	}
 	if (app) {
-		app.style.display = "none";
+		app.style.display = 'none'
 	}
 
 };
 
 export const showApp = (): void => {
+	const login = document.querySelector("#login") as HTMLDivElement;
+	const app = document.querySelector("#app") as HTMLDivElement;
 	if (login) {
 		login.style.display = "none";
 	}
@@ -55,8 +59,14 @@ export const showApp = (): void => {
 };
 
 export const hideLoginError = (): void => {
+	const divLoginError = document.querySelector(
+		"#divLoginError"
+	) as HTMLDivElement;
+	const lblLoginErrorMessage = document.querySelector(
+		"#lblLoginErrorMessage"
+	) as HTMLDivElement;
 	if (divLoginError) {
-		divLoginError.style.display = "none";
+		divLoginError.style.display = "none";;
 	}
 	if (lblLoginErrorMessage) {
 		lblLoginErrorMessage.innerHTML = "";
@@ -64,6 +74,12 @@ export const hideLoginError = (): void => {
 };
 
 export const showLoginError = (error: FirebaseError): void => {
+	const divLoginError = document.querySelector(
+		"#divLoginError"
+	) as HTMLDivElement;
+	const lblLoginErrorMessage = document.querySelector(
+		"#lblLoginErrorMessage"
+	) as HTMLDivElement;
 	if (divLoginError) {
 		divLoginError.style.display = "block";
 	}

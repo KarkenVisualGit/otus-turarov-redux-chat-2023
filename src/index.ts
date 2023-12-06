@@ -30,9 +30,12 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 connectAuthEmulator(auth, "http://localhost:9099");
 
-const loginEmailPassword = async (): Promise<void> => {
-	const loginEmail = txtEmail.value;
-	const loginPassword = txtPassword.value;
+export const loginEmailPassword = async (): Promise<void> => {
+	const loginEmail = txtEmail ? txtEmail.value : '';
+	const loginPassword = txtPassword ? txtPassword.value : '';
+
+	// const loginEmail = txtEmail.value;
+	// const loginPassword = txtPassword.value;
 
 	try {
 		const userCredential = await signInWithEmailAndPassword(
@@ -85,9 +88,11 @@ const monitorAuthState = async (): Promise<void> => {
 const logout = async (): Promise<void> => {
 	await signOut(auth);
 };
-
-btnLogin.addEventListener("click", loginEmailPassword);
-btnSignup.addEventListener("click", createAccount);
-btnLogout.addEventListener("click", logout);
+if(btnLogin && btnSignup && btnLogout)
+{
+	btnLogin.addEventListener("click", loginEmailPassword);
+	btnSignup.addEventListener("click", createAccount);
+	btnLogout.addEventListener("click", logout);
+}
 
 monitorAuthState();

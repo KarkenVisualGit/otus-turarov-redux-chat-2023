@@ -181,6 +181,14 @@ input:focus ~ .highlight {
   background: #357bd8;
 }
 
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
 footer {
   text-align: center;
 }

@@ -85,7 +85,9 @@ const config: Config = {
 	//   "node"
 	// ],
 
-	// moduleNameMapper: {},
+	moduleNameMapper: {
+		'\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts',
+	},
 
 	// modulePathIgnorePatterns: [],
 
@@ -129,7 +131,7 @@ const config: Config = {
 
 	// setupFiles: [],
 
-	setupFilesAfterEnv: ['@testing-library/jest-dom'],
+	// setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
 
 	// slowTestThreshold: 5,
 
@@ -146,10 +148,10 @@ const config: Config = {
 	// testLocationInResults: false,
 
 	// The glob patterns Jest uses to detect test files
-	// testMatch: [
-	//   "**/__tests__/**/*.[jt]s?(x)",
-	//   "**/?(*.)+(spec|test).[tj]s?(x)"
-	// ],
+	testMatch: [
+		"**/__tests__/**/*.[jt]s?(x)",
+		"**/?(*.)+(spec|test).[tj]s?(x)"
+	],
 
 	// testPathIgnorePatterns: [
 	//   "\\\\node_modules\\\\"
