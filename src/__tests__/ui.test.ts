@@ -16,7 +16,7 @@ describe('Authentication Tests', () => {
   afterEach(() => {
     document.body.innerHTML = "";
   });
-  test.only('should show login form', () => {
+  test('should show login form', () => {
     showLoginForm();
     console.log(loginElement.outerHTML);
     if (loginElement && appElement) {
@@ -49,7 +49,7 @@ describe('Auth Module Tests', () => {
     document.body.innerHTML = "";
   });
 
-  test.only('should show app form', () => {
+  test('should show app form', () => {
 
     showApp();
     
@@ -89,7 +89,7 @@ describe('Auth Module Tests', () => {
       document.body.innerHTML = "";
     });
 
-    test.only('should hide login form', () => {
+    test('should hide login form', () => {
       
       hideLoginError();
 

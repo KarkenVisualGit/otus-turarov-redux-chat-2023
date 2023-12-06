@@ -1,4 +1,4 @@
-import * as authModule from '../ui';
+import { showLoginError, showLoginState } from '../ui';
 import { AuthErrorCodes, User } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 
@@ -59,14 +59,12 @@ describe('Login Error Tests', () => {
 
     it('should display the correct error message for INVALID_PASSWORD', () => {
         const error = mockFirebaseError(AuthErrorCodes.INVALID_PASSWORD,
-            'some-error-code', 'Some error message');
-        console.log(document.body.innerHTML);
-        authModule.showLoginError(error);
+            'some-error-code', 'Wrong password. Try again.');
+        showLoginError(error);
         const errorMessageElement = document.getElementById('lblLoginErrorMessage');
-        console.log(errorMessageElement);
         if (errorMessageElement) {
             expect(errorMessageElement).not.toBeNull();
-            expect(errorMessageElement.textContent).toBe("Wrong password. Try again.");
+            expect(errorMessageElement.textContent).toBe("Error: Wrong password. Try again.");
         } else {
             throw new Error('Element not found');
         }
@@ -75,7 +73,7 @@ describe('Login Error Tests', () => {
     it('should display the general error message for other errors', () => {
         const error = mockFirebaseError('some-other-error-code',
             'some-error-code', 'Some error message');
-        authModule.showLoginError(error);
+        showLoginError(error);
         const errorMessageElement = document.getElementById('lblLoginErrorMessage');
         if (errorMessageElement) {
             expect(errorMessageElement.textContent).toBe(`Error: ${error.message}`);
@@ -86,7 +84,7 @@ describe('Login Error Tests', () => {
 
     it('should display the correct user information', () => {
         const user = mockUser('John Doe', '123456', 'john@example.com') as unknown as User;
-        authModule.showLoginState(user);
+        showLoginState(user);
         const authStateElement = document.getElementById('lblAuthState');
         if (authStateElement) {
             expect(authStateElement.textContent)

@@ -6,9 +6,6 @@ export const txtPassword = document.querySelector(
 	"#txtPassword"
 ) as HTMLInputElement;
 
-// export const login = document.querySelector("#login") as HTMLDivElement;
-// export const app = document.querySelector("#app") as HTMLDivElement;
-
 export const btnLogin = document.querySelector(
 	"#btnLogin"
 ) as HTMLButtonElement;
@@ -27,12 +24,6 @@ export const lblAuthState = document.querySelector(
 	"#lblAuthState"
 ) as HTMLDivElement;
 
-// export const divLoginError = document.querySelector(
-// 	"#divLoginError"
-// ) as HTMLDivElement;
-// export const lblLoginErrorMessage = document.querySelector(
-// 	"#lblLoginErrorMessage"
-// ) as HTMLDivElement;
 
 export const showLoginForm = (): void => {
 	const login = document.querySelector("#login") as HTMLDivElement;
@@ -91,9 +82,12 @@ export const showLoginError = (error: FirebaseError): void => {
 };
 
 export const showLoginState = (user: User): void => {
+	const lblAuthState = document.querySelector(
+		"#lblAuthState"
+	) as HTMLDivElement;
 	if (lblAuthState) {
-		lblAuthState.innerHTML = `You're logged in as 
-  ${user.displayName} (uid: ${user.uid}, email: ${user.email}) `;
+		lblAuthState.innerHTML =
+			`You're logged in as ${user.displayName} (uid: ${user.uid}, email: ${user.email}) `;
 	}
 
 };
