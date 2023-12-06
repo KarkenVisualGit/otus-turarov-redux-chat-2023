@@ -1,8 +1,22 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { loginEmailPassword } from '../index';
+import {
+    signInWithEmailAndPassword,
+    getAuth,
+    connectAuthEmulator,
+    createUserWithEmailAndPassword,
+    UserCredential
+} from 'firebase/auth';
+
+import {
+    loginEmailPassword,
+    createAccount,
+    monitorAuthState
+} from '../index';
 jest.mock('firebase/auth');
 
 describe('loginEmailPassword', () => {
+    const mockAuth = undefined;
+    const mockedSignIn = jest.fn();
+
     beforeEach(() => {
         document.body.innerHTML = `
     <input id="txtEmail" />
@@ -15,26 +29,32 @@ describe('loginEmailPassword', () => {
     </button>
         
     `;
-        (signInWithEmailAndPassword as jest.Mock).mockClear();
+        (getAuth as jest.Mock).mockReturnValue(mockAuth);
+        (signInWithEmailAndPassword as jest.Mock).mockImplementation(mockedSignIn);
+        mockedSignIn.mockResolvedValue({ user: { email: 'test@example.com' } });
     });
 
-    it('should call signInWithEmailAndPassword with correct credentials', async () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should call createWithEmailAndPassword with correct credentials', async () => {
 
         const txtEmail = document.getElementById('txtEmail') as HTMLInputElement;
         const txtPassword = document.getElementById('txtPassword') as HTMLInputElement;
-        expect(txtEmail).not.toBeNull();
-        expect(txtPassword).not.toBeNull();
-       
+
         txtEmail.value = 'test@example.com';
         txtPassword.value = 'password123';
 
         await loginEmailPassword();
 
-        expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
-            expect.anything(),
+        expect(mockedSignIn).toHaveBeenCalledWith(
+            mockAuth,
             'test@example.com',
             'password123'
         );
+
+
     });
 
 

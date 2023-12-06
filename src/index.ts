@@ -15,13 +15,7 @@ import {
 	showLoginState,
 	showLoginForm,
 	showApp,
-	showLoginError,
-	btnLogin,
-	btnSignup,
-	btnLogout,
-	txtEmail,
-	txtPassword,
-	lblAuthState,
+	showLoginError
 } from "./ui";
 import { firebaseConfig } from "./chat";
 
@@ -31,11 +25,15 @@ const auth = getAuth(firebaseApp);
 connectAuthEmulator(auth, "http://localhost:9099");
 
 export const loginEmailPassword = async (): Promise<void> => {
-	const loginEmail = txtEmail ? txtEmail.value : '';
-	const loginPassword = txtPassword ? txtPassword.value : '';
+	const txtEmail = document.querySelector("#txtEmail") as HTMLInputElement;
+	const txtPassword = document.querySelector(
+		"#txtPassword"
+	) as HTMLInputElement;
+	// const loginEmail = txtEmail ? txtEmail.value : '';
+	// const loginPassword = txtPassword ? txtPassword.value : '';
 
-	// const loginEmail = txtEmail.value;
-	// const loginPassword = txtPassword.value;
+	const loginEmail = txtEmail.value;
+	const loginPassword = txtPassword.value;
 
 	try {
 		const userCredential = await signInWithEmailAndPassword(
@@ -55,7 +53,11 @@ export const loginEmailPassword = async (): Promise<void> => {
 	}
 };
 
-const createAccount = async (): Promise<void> => {
+export const createAccount = async (): Promise<void> => {
+	const txtEmail = document.querySelector("#txtEmail") as HTMLInputElement;
+	const txtPassword = document.querySelector(
+		"#txtPassword"
+	) as HTMLInputElement;
 	const email = txtEmail.value;
 	const password = txtPassword.value;
 
@@ -70,7 +72,10 @@ const createAccount = async (): Promise<void> => {
 	}
 };
 
-const monitorAuthState = async (): Promise<void> => {
+export const monitorAuthState = async (): Promise<void> => {
+	const lblAuthState = document.querySelector(
+		"#lblAuthState"
+	) as HTMLDivElement;
 	onAuthStateChanged(auth, (user: User | null) => {
 		if (user) {
 			showApp();
@@ -88,8 +93,17 @@ const monitorAuthState = async (): Promise<void> => {
 const logout = async (): Promise<void> => {
 	await signOut(auth);
 };
-if(btnLogin && btnSignup && btnLogout)
-{
+const btnLogin = document.querySelector(
+	"#btnLogin"
+) as HTMLButtonElement;
+const btnSignup = document.querySelector(
+	"#btnSignup"
+) as HTMLButtonElement;
+
+const btnLogout = document.querySelector(
+	"#btnLogout"
+) as HTMLButtonElement;
+if (btnLogin && btnSignup && btnLogout) {
 	btnLogin.addEventListener("click", loginEmailPassword);
 	btnSignup.addEventListener("click", createAccount);
 	btnLogout.addEventListener("click", logout);

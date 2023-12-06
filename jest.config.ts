@@ -167,7 +167,10 @@ const config: Config = {
 	// testRunner: "jest-circus/runner",
 
 	// A map from regular expressions to paths to transformers
-	// transform: undefined,
+	// transform: {
+	// 	"^.+\\.[t|j]sx?$": "babel-jest"
+	// },
+	
 
 	// transformIgnorePatterns: [
 	//   "\\\\node_modules\\\\",

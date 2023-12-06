@@ -27,8 +27,7 @@
   "homepage": "https://github.com/KarkenVisualGit/otus-turarov-redux-chat-2023#readme",
   "dependencies": {
     "firebase": "^10.6.0",
-    "firebase-admin": "^11.11.1",
-    "node-fetch": "^3.3.2"
+    "firebase-admin": "^11.11.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
@@ -61,6 +60,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.1.0",
     "mini-css-extract-plugin": "^2.7.6",
+    "node-fetch": "^3.3.2",
     "postcss": "^8.4.31",
     "postcss-loader": "^7.3.3",
     "prettier": "^3.1.0",

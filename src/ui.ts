@@ -1,29 +1,9 @@
 import { AuthErrorCodes, User } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 
-export const txtEmail = document.querySelector("#txtEmail") as HTMLInputElement;
-export const txtPassword = document.querySelector(
-	"#txtPassword"
-) as HTMLInputElement;
-
-export const btnLogin = document.querySelector(
-	"#btnLogin"
-) as HTMLButtonElement;
-export const btnSignup = document.querySelector(
-	"#btnSignup"
-) as HTMLButtonElement;
-
-export const btnLogout = document.querySelector(
-	"#btnLogout"
-) as HTMLButtonElement;
-
 export const divAuthState = document.querySelector(
 	"#divAuthState"
 ) as HTMLDivElement;
-export const lblAuthState = document.querySelector(
-	"#lblAuthState"
-) as HTMLDivElement;
-
 
 export const showLoginForm = (): void => {
 	const login = document.querySelector("#login") as HTMLDivElement;
