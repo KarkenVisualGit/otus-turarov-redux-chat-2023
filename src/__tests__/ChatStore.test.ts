@@ -2,15 +2,8 @@ import { Store, initialState, rootReducer } from '../ChatStore';
 
 import {
     chatReducer,
-    ChatState,
-    GetMessagesAction,
     SendMessageAction,
     ReceiveMessagesAction,
-    MessageSentAction,
-    ReceiveNewMessageAction,
-    DeleteAction,
-    MessageDeleteAction,
-    UpdateMessagesAction,
     ChatActionTypes
 } from '../ChatReducer';
 
