@@ -1,4 +1,4 @@
-import { sendMessage, SendMessageResponse } from '../chat';
+import { sendMessage, SendMessageResponse, getMessagesWithIds } from '../chat';
 import { Message } from '../Actions';
 global.fetch = jest.fn();
 
@@ -46,3 +46,28 @@ describe('sendMessage', () => {
     expect(result).toEqual(fakeResponse);
   });
 });
+
+describe('getMessagesWithIds', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+  
+    it('fetches messages with ids and returns a response', async () => {
+      const fakeResponse = {
+        'id1': { nickname: 'User1', message: 'Hello', date: '2023-12-07T06:15:44.308Z' },
+        'id2': { nickname: 'User2', message: 'Hi', date: '2023-12-07T06:20:44.308Z' },
+      };
+  
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        json: () => Promise.resolve(fakeResponse),
+      });
+  
+      const result = await getMessagesWithIds();
+  
+      expect(global.fetch).toHaveBeenCalledWith(
+        'https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app/messages.json'
+      );
+  
+      expect(result).toEqual(fakeResponse);
+    });
+  });

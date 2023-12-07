@@ -18,7 +18,6 @@ describe('Authentication Tests', () => {
   });
   test('should show login form', () => {
     showLoginForm();
-    console.log(loginElement.outerHTML);
     if (loginElement && appElement) {
       expect(loginElement.style.display).toBe("block");
       expect(appElement.style.display).toBe("none");

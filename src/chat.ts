@@ -90,12 +90,13 @@ export async function deleteMessageId(messageId: string): Promise<void> {
 			"Content-Type": "application/json",
 		},
 	});
+	console.log(response);
 	if (!response.ok) {
 		throw new Error("Network response was not ok");
 	}
 }
 
-export function observeWithXHR(cb: (data: EventData) => void): void {
+/* export function observeWithXHR(cb: (data: EventData) => void): void {
 	// https://firebase.google.com/docs/reference/rest/database#section-streaming
 	const xhr = new XMLHttpRequest();
 	let lastResponseLength = 0;
@@ -121,7 +122,7 @@ export function observeWithXHR(cb: (data: EventData) => void): void {
 	xhr.setRequestHeader("Accept", "text/event-stream");
 
 	xhr.send();
-}
+} */
 
 export function observeWithEventSource(cb: (data: EventDataRec) => void): void {
 	// https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
