@@ -2,12 +2,14 @@ import {
     chatReducer,
     initialState,
     ChatState,
-    ChatActionTypes,
     GetMessagesAction,
     SendMessageAction,
     ReceiveMessagesAction,
     MessageSentAction,
-    ReceiveNewMessageAction
+    ReceiveNewMessageAction,
+    DeleteAction,
+    MessageDeleteAction,
+    UpdateMessagesAction
 } from '../ChatReducer';
 import {
     INIT,
@@ -15,7 +17,10 @@ import {
     SEND_MESSAGE,
     RECEIVE_MESSAGES,
     MESSAGE_SENT,
-    RECEIVE_NEW_MESSAGE
+    RECEIVE_NEW_MESSAGE,
+    DELETE_MESSAGE,
+    MESSAGE_DELETED,
+    UPDATE_MESSAGES
 } from '../ActionTypes';
 import { Message } from "../Actions";
 
@@ -81,5 +86,58 @@ describe('chatReducer', () => {
         expect(chatReducer(initialState, receiveNewMessageAction)).toEqual(expectedState);
       });
       
-
+      it('should handle DELETE_MESSAGE', () => {
+        const initialState = {
+          messages: [
+            { id: '1', nickname: 'User1', message: 'Hello', date: new Date() },
+            { id: '2', nickname: 'User2', message: 'Hi', date: new Date() }
+          ],
+          isFetching: false
+        };
+        const deleteAction : DeleteAction = {
+          type: DELETE_MESSAGE,
+          payload: '1',
+        };
+      
+        const expectedState = {
+          ...initialState,
+          messages: initialState.messages.filter(message => message.id !== deleteAction.payload)
+        };
+      
+        expect(chatReducer(initialState, deleteAction)).toEqual(expectedState);
+      });
+      
+      it('should handle MESSAGE_DELETED', () => {
+        const initialState = {
+          messages: [
+            { id: '1', nickname: 'User1', message: 'Hello', date: new Date() },
+            { id: '2', nickname: 'User2', message: 'Hi', date: new Date() }
+          ],
+          isFetching: false
+        };
+        const messageDeletedAction: MessageDeleteAction = {
+          type: MESSAGE_DELETED,
+          payload: '1',
+        };
+      
+        const expectedState = {
+          ...initialState,
+          messages: initialState.messages.filter(message => message.id !== messageDeletedAction.payload)
+        };
+      
+        expect(chatReducer(initialState, messageDeletedAction)).toEqual(expectedState);
+      });
+      
+      it('should handle UPDATE_MESSAGES', () => {
+        const initialState = {
+          messages: [{ id: '1', nickname: 'User', message: 'Test', date: new Date() }],
+          isFetching: false
+        };
+        const updateAction: UpdateMessagesAction = {
+          type: UPDATE_MESSAGES,
+        };
+      
+        expect(chatReducer(initialState, updateAction)).toEqual(initialState);
+      });
+      
 });
