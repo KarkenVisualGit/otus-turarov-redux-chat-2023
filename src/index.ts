@@ -90,7 +90,7 @@ export const monitorAuthState = async (): Promise<void> => {
 	});
 };
 
-const logout = async (): Promise<void> => {
+export const logout = async (): Promise<void> => {
 	await signOut(auth);
 };
 const btnLogin = document.querySelector(
