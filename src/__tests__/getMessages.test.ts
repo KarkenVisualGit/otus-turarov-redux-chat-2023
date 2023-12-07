@@ -17,13 +17,12 @@ describe('getMessagesList', () => {
 
     const result = await getMessagesList();
 
-    // Проверяем, что fetch был вызван с правильным URL
+    
     expect(global.fetch).toHaveBeenCalledWith(
       'https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app/messages.json',
       { headers: { "Accept": "application/json", "Content-Type": "application/json" } }
     );
 
-    // Проверяем формат возвращаемых данных
     expect(result).toEqual(
       Object.values(fakeResponse).map((el) => ({
         ...el,
