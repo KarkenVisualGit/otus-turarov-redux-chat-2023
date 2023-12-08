@@ -90,7 +90,6 @@ export async function deleteMessageId(messageId: string): Promise<void> {
 			"Content-Type": "application/json",
 		},
 	});
-	console.log(response);
 	if (!response.ok) {
 		throw new Error("Network response was not ok");
 	}
