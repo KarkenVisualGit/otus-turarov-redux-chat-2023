@@ -21,10 +21,14 @@ describe('chatMiddleware', () => {
         sendMessageMock.mockResolvedValue({
             name: 'uniqueMessageId'
         });
+        jest.clearAllMocks();
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date('2023-12-07T06:15:44.308Z'));
     });
 
     afterEach(() => {
         jest.clearAllMocks();
+        jest.useRealTimers();
     });
 
     it('should handle SEND_MESSAGE action', async () => {
@@ -37,6 +41,7 @@ describe('chatMiddleware', () => {
         expect(chatApi.sendMessage).toHaveBeenCalledWith(testMessage);
         expect(storeMock.dispatch).toHaveBeenCalledWith({ type: 'MESSAGE_SENT', payload: testMessage });
         expect(storeMock.dispatch).toHaveBeenCalledWith({ type: 'GET_MESSAGES' });
+        jest.clearAllMocks();
     });
 
     it('should handle GET_MESSAGES action', async () => {
