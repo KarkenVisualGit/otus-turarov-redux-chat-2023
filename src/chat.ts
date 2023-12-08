@@ -131,7 +131,6 @@ export function observeWithEventSource(cb: (data: EventDataRec) => void): void {
 
 	evtSource.addEventListener("put", (ev) => {
 		const { data } = JSON.parse(ev.data);
-		console.log(data);
 		cb(data);
 	});
 }
