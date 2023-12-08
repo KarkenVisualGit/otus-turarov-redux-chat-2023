@@ -1,5 +1,4 @@
 import { sendMessage, SendMessageResponse, getMessagesWithIds } from '../chat';
-import { Message } from '../Actions';
 global.fetch = jest.fn();
 
 describe('sendMessage', () => {
