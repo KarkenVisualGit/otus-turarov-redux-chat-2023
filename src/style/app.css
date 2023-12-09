@@ -1,93 +1,93 @@
 #chat-container {
-  max-width: 400px;
-  margin: auto;
-  background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	max-width: 400px;
+	margin: auto;
+	background-color: #f2f2f2;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #messages {
-  height: 300px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding: 10px;
-  background-color: #fff;
-  margin-bottom: 10px;
+	height: 300px;
+	overflow-y: auto;
+	border: 1px solid #ccc;
+	padding: 10px;
+	background-color: #fff;
+	margin-bottom: 10px;
 }
 
 #send-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
 }
 
 #send-form input,
 #send-form button {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 }
 
 #send-form input {
-  flex-grow: 1;
-  min-width: 60%;
+	flex-grow: 1;
+	min-width: 60%;
 }
 
 #send-form .send-button {
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 30%;
-  cursor: pointer;
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: 30%;
+	cursor: pointer;
 }
 
 #logout {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-weight: bold;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	cursor: pointer;
+	margin-top: 10px;
+	width: 100%;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	font-weight: bold;
 }
 
 .emoji {
-  max-height: 1.7em;
-  vertical-align: middle;
-  padding: 3px;
+	max-height: 1.7em;
+	vertical-align: middle;
+	padding: 3px;
 }
 
 #message {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  min-height: 20px;
-  background-color: #fff;
-  margin-bottom: 10px;
-  flex-grow: 1;
-  min-width: 60%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	min-height: 20px;
+	background-color: #fff;
+	margin-bottom: 10px;
+	flex-grow: 1;
+	min-width: 60%;
 }
 
 #message:empty:before {
-  content: attr(placeholder);
-  color: grey;
+	content: attr(placeholder);
+	color: grey;
 }
 
 @media (max-width: 600px) {
-  #send-form input,
-  #send-form .send-button {
-    flex-basis: 100%;
-  }
+	#send-form input,
+	#send-form .send-button {
+		flex-basis: 100%;
+	}
 
-  #logout {
-    padding: 8px;
-    font-size: 0.9em;
-  }
+	#logout {
+		padding: 8px;
+		font-size: 0.9em;
+	}
 
-  #message {
-    flex-basis: 100%;
-  }
+	#message {
+		flex-basis: 100%;
+	}
 }
