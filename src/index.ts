@@ -22,7 +22,7 @@ import { firebaseConfig } from "./chat";
 const firebaseApp = initializeApp(firebaseConfig);
 
 const auth = getAuth(firebaseApp);
-connectAuthEmulator(auth, "http://localhost:9099");
+// connectAuthEmulator(auth, "http://localhost:9099");
 
 export const loginEmailPassword = async (): Promise<void> => {
 	const txtEmail = document.querySelector("#txtEmail") as HTMLInputElement;
