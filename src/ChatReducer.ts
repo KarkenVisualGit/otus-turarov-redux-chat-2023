@@ -1,14 +1,14 @@
 /* eslint-disable default-param-last */
 import {
-	GET_MESSAGES,
-	RECEIVE_MESSAGES,
-	SEND_MESSAGE,
-	MESSAGE_SENT,
-	INIT,
-	RECEIVE_NEW_MESSAGE,
-	DELETE_MESSAGE,
-	UPDATE_MESSAGES,
-	MESSAGE_DELETED,
+  GET_MESSAGES,
+  RECEIVE_MESSAGES,
+  SEND_MESSAGE,
+  MESSAGE_SENT,
+  INIT,
+  RECEIVE_NEW_MESSAGE,
+  DELETE_MESSAGE,
+  UPDATE_MESSAGES,
+  MESSAGE_DELETED,
 } from "./ActionTypes";
 
 import { Message } from "./Actions";
@@ -72,68 +72,68 @@ export interface ChatState {
 }
 
 export const initialState: ChatState = {
-	messages: [],
-	isFetching: false,
+  messages: [],
+  isFetching: false,
 };
 
 export const chatReducer = (
-	state: ChatState = initialState,
-	action: ChatActionTypes
+  state: ChatState = initialState,
+  action: ChatActionTypes
 ): ChatState => {
-	switch (action.type) {
-	case INIT: {
-		return initialState;
-	}
-	case GET_MESSAGES: {
-		return {
-			...state,
-			isFetching: true,
-		};
-	}
-	case RECEIVE_MESSAGES:
-		return {
-			...state,
-			messages: action.payload,
-			isFetching: false,
-		};
-	case SEND_MESSAGE:
-		return state;
-	case MESSAGE_SENT:
-		return state;
-	case RECEIVE_NEW_MESSAGE:
-		if (!action.payload) {
-			// eslint-disable-next-line no-console
-			console.error("Invalid message structure:", action.payload);
-		}
-		return {
-			...state,
-			messages: [...state.messages, action.payload],
-		};
-	case DELETE_MESSAGE: {
-		const newState = {
-			...state,
-			messages: state.messages.filter(
-				(message) => message.id !== action.payload
-			),
-		};
-		return newState;
-	}
-	case MESSAGE_DELETED: {
-		const delState = {
-			...state,
-			messages: state.messages.filter(
-				(message) => message.id !== action.payload
-			),
-		};
-		return delState;
-	}
-	case UPDATE_MESSAGES:
-		return {
-			...state,
-		};
-	default:
-		return state;
-	}
+  switch (action.type) {
+    case INIT: {
+      return initialState;
+    }
+    case GET_MESSAGES: {
+      return {
+        ...state,
+        isFetching: true,
+      };
+    }
+    case RECEIVE_MESSAGES:
+      return {
+        ...state,
+        messages: action.payload,
+        isFetching: false,
+      };
+    case SEND_MESSAGE:
+      return state;
+    case MESSAGE_SENT:
+      return state;
+    case RECEIVE_NEW_MESSAGE:
+      if (!action.payload) {
+        // eslint-disable-next-line no-console
+        console.error("Invalid message structure:", action.payload);
+      }
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
+      };
+    case DELETE_MESSAGE: {
+      const newState = {
+        ...state,
+        messages: state.messages.filter(
+          (message) => message.id !== action.payload
+        ),
+      };
+      return newState;
+    }
+    case MESSAGE_DELETED: {
+      const delState = {
+        ...state,
+        messages: state.messages.filter(
+          (message) => message.id !== action.payload
+        ),
+      };
+      return delState;
+    }
+    case UPDATE_MESSAGES:
+      return {
+        ...state,
+      };
+    default:
+      return state;
+  }
 };
 
 export default chatReducer;

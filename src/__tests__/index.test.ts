@@ -1,7 +1,7 @@
 import {
-	signInWithEmailAndPassword,
-	getAuth,
-	createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  getAuth,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 
@@ -12,11 +12,11 @@ import { loginEmailPassword, createAccount } from "../index";
 jest.mock("firebase/auth");
 
 describe("loginEmailPassword", () => {
-	const mockAuth = undefined;
-	const mockedSignIn = jest.fn();
+  const mockAuth = undefined;
+  const mockedSignIn = jest.fn();
 
-	beforeEach(() => {
-		document.body.innerHTML = `
+  beforeEach(() => {
+    document.body.innerHTML = `
     <input id="txtEmail" />
     <input id="txtPassword" />
     <button id="btnLogin" type="button" class="button buttonBlue">
@@ -27,122 +27,122 @@ describe("loginEmailPassword", () => {
     </button>
         
     `;
-		(getAuth as jest.Mock).mockReturnValue(mockAuth);
-		(signInWithEmailAndPassword as jest.Mock).mockImplementation(mockedSignIn);
-		mockedSignIn.mockResolvedValue({ user: { email: "test@example.com" } });
-	});
+    (getAuth as jest.Mock).mockReturnValue(mockAuth);
+    (signInWithEmailAndPassword as jest.Mock).mockImplementation(mockedSignIn);
+    mockedSignIn.mockResolvedValue({ user: { email: "test@example.com" } });
+  });
 
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-	it("should call createWithEmailAndPassword with correct credentials", async () => {
-		const txtEmail = document.getElementById("txtEmail") as HTMLInputElement;
-		const txtPassword = document.getElementById(
-			"txtPassword"
-		) as HTMLInputElement;
+  it("should call createWithEmailAndPassword with correct credentials", async () => {
+    const txtEmail = document.getElementById("txtEmail") as HTMLInputElement;
+    const txtPassword = document.getElementById(
+      "txtPassword"
+    ) as HTMLInputElement;
 
-		txtEmail.value = "test@example.com";
-		txtPassword.value = "password123";
+    txtEmail.value = "test@example.com";
+    txtPassword.value = "password123";
 
-		await loginEmailPassword();
+    await loginEmailPassword();
 
-		expect(mockedSignIn).toHaveBeenCalledWith(
-			mockAuth,
-			"test@example.com",
-			"password123"
-		);
-	});
+    expect(mockedSignIn).toHaveBeenCalledWith(
+      mockAuth,
+      "test@example.com",
+      "password123"
+    );
+  });
 });
 
 describe("createAccount", () => {
-	const mockAuth = undefined;
-	const mockedCreateUser = jest.fn();
+  const mockAuth = undefined;
+  const mockedCreateUser = jest.fn();
 
-	beforeEach(() => {
-		document.body.innerHTML = `
+  beforeEach(() => {
+    document.body.innerHTML = `
         <input id="txtEmail" />
         <input id="txtPassword" />
       `;
 
-		(getAuth as jest.Mock).mockReturnValue(mockAuth);
-		(createUserWithEmailAndPassword as jest.Mock).mockImplementation(
-			mockedCreateUser
-		);
-		mockedCreateUser.mockResolvedValue({ user: { email: "test@example.com" } });
-	});
+    (getAuth as jest.Mock).mockReturnValue(mockAuth);
+    (createUserWithEmailAndPassword as jest.Mock).mockImplementation(
+      mockedCreateUser
+    );
+    mockedCreateUser.mockResolvedValue({ user: { email: "test@example.com" } });
+  });
 
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-	it("should call createUserWithEmailAndPassword with correct credentials", async () => {
-		const txtEmail = document.getElementById("txtEmail") as HTMLInputElement;
-		const txtPassword = document.getElementById(
-			"txtPassword"
-		) as HTMLInputElement;
+  it("should call createUserWithEmailAndPassword with correct credentials", async () => {
+    const txtEmail = document.getElementById("txtEmail") as HTMLInputElement;
+    const txtPassword = document.getElementById(
+      "txtPassword"
+    ) as HTMLInputElement;
 
-		txtEmail.value = "test@example.com";
-		txtPassword.value = "password123";
+    txtEmail.value = "test@example.com";
+    txtPassword.value = "password123";
 
-		await createAccount();
+    await createAccount();
 
-		expect(mockedCreateUser).toHaveBeenCalledWith(
-			mockAuth,
-			"test@example.com",
-			"password123"
-		);
-	});
+    expect(mockedCreateUser).toHaveBeenCalledWith(
+      mockAuth,
+      "test@example.com",
+      "password123"
+    );
+  });
 });
 
 jest.mock("../ui");
 jest.mock("firebase/auth");
 
 describe("createAccount with error", () => {
-	const mockAuth = undefined;
-	const mockedCreateUser = jest.fn();
-	const testError = new FirebaseError("auth/error-code", "Test error message");
+  const mockAuth = undefined;
+  const mockedCreateUser = jest.fn();
+  const testError = new FirebaseError("auth/error-code", "Test error message");
 
-	beforeEach(() => {
-		document.body.innerHTML = `
+  beforeEach(() => {
+    document.body.innerHTML = `
         <input id="txtEmail" />
         <input id="txtPassword" />
       `;
-		// eslint-disable-next-line no-console
-		console.log = jest.fn();
+    // eslint-disable-next-line no-console
+    console.log = jest.fn();
 
-		(getAuth as jest.Mock).mockReturnValue(mockAuth);
-		(createUserWithEmailAndPassword as jest.Mock).mockImplementation(
-			mockedCreateUser
-		);
-		mockedCreateUser.mockRejectedValue(testError);
-	});
+    (getAuth as jest.Mock).mockReturnValue(mockAuth);
+    (createUserWithEmailAndPassword as jest.Mock).mockImplementation(
+      mockedCreateUser
+    );
+    mockedCreateUser.mockRejectedValue(testError);
+  });
 
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-	it("should handle FirebaseError correctly", async () => {
-		const txtEmail = document.getElementById("txtEmail") as HTMLInputElement;
-		const txtPassword = document.getElementById(
-			"txtPassword"
-		) as HTMLInputElement;
+  it("should handle FirebaseError correctly", async () => {
+    const txtEmail = document.getElementById("txtEmail") as HTMLInputElement;
+    const txtPassword = document.getElementById(
+      "txtPassword"
+    ) as HTMLInputElement;
 
-		txtEmail.value = "test@example.com";
-		txtPassword.value = "password123";
+    txtEmail.value = "test@example.com";
+    txtPassword.value = "password123";
 
-		await createAccount();
+    await createAccount();
 
-		expect(mockedCreateUser).toHaveBeenCalledWith(
-			mockAuth,
-			"test@example.com",
-			"password123"
-		);
+    expect(mockedCreateUser).toHaveBeenCalledWith(
+      mockAuth,
+      "test@example.com",
+      "password123"
+    );
 
-		expect(uiModule.showLoginError).toHaveBeenCalledWith(testError);
-		// eslint-disable-next-line no-console
-		expect(console.log).toHaveBeenCalledWith(
-			`There was a Firebase error: ${testError.message}`
-		);
-	});
+    expect(uiModule.showLoginError).toHaveBeenCalledWith(testError);
+    // eslint-disable-next-line no-console
+    expect(console.log).toHaveBeenCalledWith(
+      `There was a Firebase error: ${testError.message}`
+    );
+  });
 });
