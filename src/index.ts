@@ -7,7 +7,7 @@ import {
 	signOut,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
-	connectAuthEmulator,
+	// connectAuthEmulator,
 	User,
 } from "firebase/auth";
 import {
