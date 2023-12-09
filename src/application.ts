@@ -1,7 +1,7 @@
-import "./style/app.css";
-import { initializeChatApp } from "./initializeChatApp";
-import { Store, rootReducer, initialState } from "./ChatStore";
-import { chatMiddleware } from "./middleware";
+import './style/app.css';
+import { initializeChatApp } from './initializeChatApp';
+import { Store, rootReducer, initialState } from './ChatStore';
+import { chatMiddleware } from './middleware';
 
 export const store = new Store(rootReducer, initialState, chatMiddleware);
 initializeChatApp(store);
