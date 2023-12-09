@@ -86,7 +86,7 @@ const config: Config = {
 	// ],
 
 	moduleNameMapper: {
-		'\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts',
+		"\\.(css|less)$": "<rootDir>/__mocks__/styleMock.ts",
 	},
 
 	// modulePathIgnorePatterns: [],
@@ -98,7 +98,7 @@ const config: Config = {
 	// notifyMode: "failure-change",
 
 	// A preset that is used as a base for Jest's configuration
-	preset: 'ts-jest',
+	preset: "ts-jest",
 
 	// Run tests from one or more projects
 	// projects: undefined,
@@ -148,10 +148,7 @@ const config: Config = {
 	// testLocationInResults: false,
 
 	// The glob patterns Jest uses to detect test files
-	testMatch: [
-		"**/__tests__/**/*.[jt]s?(x)",
-		"**/?(*.)+(spec|test).[tj]s?(x)"
-	],
+	testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
 
 	// testPathIgnorePatterns: [
 	//   "\\\\node_modules\\\\"
@@ -170,7 +167,6 @@ const config: Config = {
 	// transform: {
 	// 	"^.+\\.[t|j]sx?$": "babel-jest"
 	// },
-	
 
 	// transformIgnorePatterns: [
 	//   "\\\\node_modules\\\\",

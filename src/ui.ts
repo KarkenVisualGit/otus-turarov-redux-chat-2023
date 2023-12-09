@@ -9,12 +9,11 @@ export const showLoginForm = (): void => {
 	const login = document.querySelector("#login") as HTMLDivElement;
 	const app = document.querySelector("#app") as HTMLDivElement;
 	if (login) {
-		login.style.display = 'block'
+		login.style.display = "block";
 	}
 	if (app) {
-		app.style.display = 'none'
+		app.style.display = "none";
 	}
-
 };
 
 export const showApp = (): void => {
@@ -26,7 +25,6 @@ export const showApp = (): void => {
 	if (app) {
 		app.style.display = "block";
 	}
-
 };
 
 export const hideLoginError = (): void => {
@@ -37,7 +35,7 @@ export const hideLoginError = (): void => {
 		"#lblLoginErrorMessage"
 	) as HTMLDivElement;
 	if (divLoginError) {
-		divLoginError.style.display = "none";;
+		divLoginError.style.display = "none";
 	}
 	if (lblLoginErrorMessage) {
 		lblLoginErrorMessage.innerHTML = "";
@@ -67,9 +65,9 @@ export const showLoginState = (user: User): void => {
 	) as HTMLDivElement;
 	if (lblAuthState) {
 		lblAuthState.innerHTML =
-			`You're logged in as ${user.displayName} (uid: ${user.uid}, email: ${user.email}) `;
+      `You're logged in as ${user.displayName} ` +
+      `(uid: ${user.uid}, email: ${user.email})`;
 	}
-
 };
 
 hideLoginError();

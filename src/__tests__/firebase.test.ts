@@ -1,29 +1,35 @@
-import { showLoginError, showLoginState } from '../ui';
 import { AuthErrorCodes, User } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
+import { showLoginError, showLoginState } from "../ui";
 
 type MockUserProps = {
-    displayName: string,
-    uid: string,
-    email: string,
+  displayName: string;
+  uid: string;
+  email: string;
 };
 
-const mockFirebaseError = (name: string, code: string,
-    message: string)
-    : FirebaseError => ({
-        name,
-        code,
-        message
-    });
+const mockFirebaseError = (
+	name: string,
+	code: string,
+	message: string
+): FirebaseError => ({
+	name,
+	code,
+	message,
+});
 
-const mockUser = (displayName: string, uid: string, email: string): MockUserProps => ({
-    displayName,
-    uid,
-    email
+const mockUser = (
+	displayName: string,
+	uid: string,
+	email: string
+): MockUserProps => ({
+	displayName,
+	uid,
+	email,
 });
 
 const setupHtmlStructure = () => {
-    document.body.innerHTML = `
+	document.body.innerHTML = `
     <div id="login">
       <div id="divLoginError" class="group" style="display:none">
         <div id="lblLoginErrorMessage" class="errorlabel"></div>
@@ -48,52 +54,53 @@ const setupHtmlStructure = () => {
     `;
 };
 
-describe('Login Error Tests', () => {
-    beforeEach(() => {
-        setupHtmlStructure();
-    });
+describe("Login Error Tests", () => {
+	beforeEach(() => {
+		setupHtmlStructure();
+	});
 
-    afterEach(() => {
-        document.body.innerHTML = "";
-    });
+	afterEach(() => {
+		document.body.innerHTML = "";
+	});
 
-    it('should display the correct error message for INVALID_PASSWORD', () => {
-        const error = mockFirebaseError(AuthErrorCodes.INVALID_PASSWORD,
-            'some-error-code', 'Wrong password. Try again.');
-        showLoginError(error);
-        const errorMessageElement = document.getElementById('lblLoginErrorMessage');
-        if (errorMessageElement) {
-            expect(errorMessageElement).not.toBeNull();
-            expect(errorMessageElement.textContent).toBe("Error: Wrong password. Try again.");
-        } else {
-            throw new Error('Element not found');
-        }
-    });
+	it("should display the correct error message for INVALID_PASSWORD", () => {
+		const error = mockFirebaseError(
+			AuthErrorCodes.INVALID_PASSWORD,
+			"some-error-code",
+			"Wrong password. Try again."
+		);
+		showLoginError(error);
+		const errorMessageElement = document.getElementById("lblLoginErrorMessage");
 
-    it('should display the general error message for other errors', () => {
-        const error = mockFirebaseError('some-other-error-code',
-            'some-error-code', 'Some error message');
-        showLoginError(error);
-        const errorMessageElement = document.getElementById('lblLoginErrorMessage');
-        if (errorMessageElement) {
-            expect(errorMessageElement.textContent).toBe(`Error: ${error.message}`);
-        } else {
-            throw new Error('Element not found');
-        }
-    });
+		expect(errorMessageElement).not.toBeNull();
+		expect(errorMessageElement?.textContent).toBe(
+			"Error: Wrong password. Try again."
+		);
+	});
 
-    it('should display the correct user information', () => {
-        const user = mockUser('John Doe', '123456', 'john@example.com') as unknown as User;
-        showLoginState(user);
-        const authStateElement = document.getElementById('lblAuthState');
-        if (authStateElement) {
-            expect(authStateElement.textContent)
-                .toContain(`You're logged in as ${user.displayName} (uid: ${user.uid}, email: ${user.email})`);
-        } else {
-            throw new Error('Element not found');
-        }
+	it("should display the general error message for other errors", () => {
+		const error = mockFirebaseError(
+			"some-other-error-code",
+			"some-error-code",
+			"Some error message"
+		);
+		showLoginError(error);
+		const errorMessageElement = document.getElementById("lblLoginErrorMessage");
 
-    });
+		expect(errorMessageElement?.textContent).toBe(`Error: ${error.message}`);
+	});
 
+	it("should display the correct user information", () => {
+		const user = mockUser(
+			"John Doe",
+			"123456",
+			"john@example.com"
+		) as unknown as User;
+		showLoginState(user);
+		const authStateElement = document.getElementById("lblAuthState");
+
+		expect(authStateElement?.textContent).toContain(
+			`You're logged in as ${user.displayName} (uid: ${user.uid}, email: ${user.email})`
+		);
+	});
 });
-

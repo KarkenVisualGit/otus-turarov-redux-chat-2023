@@ -1,8 +1,8 @@
-import { sendMessages, deleteMessage, Message } from './Actions';
-import { generateUniqueId, firebaseConfig } from "./chat";
-import { store } from "./application";
 import { getAuth, signOut, connectAuthEmulator } from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import { sendMessages, deleteMessage, Message } from "./Actions";
+import { generateUniqueId, firebaseConfig } from "./chat";
+import { Store } from "./ChatStore";
 
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -10,17 +10,19 @@ export const auth = getAuth(firebaseApp);
 connectAuthEmulator(auth, "http://localhost:9099");
 
 export const handleLogout = () => {
-  signOut(auth)
-    .then(() => {
-      window.location.href = "index.html";
-    })
-    .catch((error) => {
-      console.error("Logout failed", error);
-    });
+	signOut(auth)
+		.then(() => {
+			window.location.href = "index.html";
+		})
+		.catch((error) => {
+			// eslint-disable-next-line no-console
+			console.error("Logout failed", error);
+		});
 };
 
 export const toggleEmojiPicker = (emojiPicker: HTMLElement) => {
-  emojiPicker.style.display =
+	// eslint-disable-next-line no-param-reassign
+	emojiPicker.style.display =
     emojiPicker.style.display === "none" ? "block" : "none";
 };
 
@@ -30,26 +32,33 @@ export const toggleEmojiPicker = (emojiPicker: HTMLElement) => {
  * @param messageInput - элемент ввода сообщения
  * @param nicknameInput - элемент ввода никнейма
  */
-export const handleSubmit = (e: Event, messageInput: HTMLDivElement, nicknameInput: HTMLInputElement) => {
-  e.preventDefault();
+export const handleSubmit = (
+	e: Event,
+	messageInput: HTMLDivElement,
+	nicknameInput: HTMLInputElement,
+	store: Store
+) => {
+	e.preventDefault();
 
-  const nickname = nicknameInput.value.trim();
-  const messageContent = messageInput.innerHTML.trim();
+	const nickname = nicknameInput.value.trim();
+	const messageContent = messageInput.innerHTML.trim();
 
-  if (!nickname || !messageContent) {
-    console.error("Nickname and message cannot be empty");
-    return;
-  }
+	if (!nickname || !messageContent) {
+		// eslint-disable-next-line no-console
+		console.error("Nickname and message cannot be empty");
+		return;
+	}
 
-  const message: Message = {
-    id: generateUniqueId(),
-    nickname,
-    message: messageContent,
-    date: new Date(),
-  };
+	const message: Message = {
+		id: generateUniqueId(),
+		nickname,
+		message: messageContent,
+		date: new Date(),
+	};
 
-  store.dispatch(sendMessages(message));
-  messageInput.innerHTML = "";
+	store.dispatch(sendMessages(message));
+	// eslint-disable-next-line no-param-reassign
+	messageInput.innerHTML = "";
 };
 
 /**
@@ -57,7 +66,11 @@ export const handleSubmit = (e: Event, messageInput: HTMLDivElement, nicknameInp
  * @param messageId - идентификатор сообщения
  * @param messageElement - элемент DOM, представляющий сообщение
  */
-export const handleDeleteMessage = (messageId: string, messageElement: HTMLElement) => {
-  store.dispatch(deleteMessage(messageId));
-  messageElement.remove();
+export const handleDeleteMessage = (
+	messageId: string,
+	messageElement: HTMLElement,
+	store: Store
+) => {
+	store.dispatch(deleteMessage(messageId));
+	messageElement.remove();
 };

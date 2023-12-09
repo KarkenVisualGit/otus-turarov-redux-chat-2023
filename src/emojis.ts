@@ -129,3 +129,5 @@ export const emojis = [
 	},
 	{ src: "./image/Suspicious Face.svg", alt: "Suspicious_Face" },
 ];
+
+export default emojis;

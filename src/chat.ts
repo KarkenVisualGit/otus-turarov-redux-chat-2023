@@ -1,4 +1,4 @@
-import { Message, EventData } from "./Actions";
+import { Message } from "./Actions";
 
 export const firebaseConfig = {
 	apiKey: "AIzaSyCZsRRy7BwXZOnYz-3BIo-o4WuHl5XKkCE",
@@ -24,7 +24,7 @@ export interface EventDataRec {
   data: ServerResponse;
 }
 
-const config = {
+export const config = {
 	firebaseBaseUrl:
     "https://task-calendar-turarov-default-rtdb.asia-southeast1.firebasedatabase.app",
 	firebaseCollection: "messages.json",

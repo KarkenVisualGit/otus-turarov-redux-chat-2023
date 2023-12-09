@@ -15,7 +15,7 @@ import {
 	showLoginState,
 	showLoginForm,
 	showApp,
-	showLoginError
+	showLoginError,
 } from "./ui";
 import { firebaseConfig } from "./chat";
 
@@ -93,16 +93,10 @@ export const monitorAuthState = async (): Promise<void> => {
 export const logout = async (): Promise<void> => {
 	await signOut(auth);
 };
-const btnLogin = document.querySelector(
-	"#btnLogin"
-) as HTMLButtonElement;
-const btnSignup = document.querySelector(
-	"#btnSignup"
-) as HTMLButtonElement;
+const btnLogin = document.querySelector("#btnLogin") as HTMLButtonElement;
+const btnSignup = document.querySelector("#btnSignup") as HTMLButtonElement;
 
-const btnLogout = document.querySelector(
-	"#btnLogout"
-) as HTMLButtonElement;
+const btnLogout = document.querySelector("#btnLogout") as HTMLButtonElement;
 if (btnLogin && btnSignup && btnLogout) {
 	btnLogin.addEventListener("click", loginEmailPassword);
 	btnSignup.addEventListener("click", createAccount);
