@@ -1,34 +1,34 @@
 import { showLoginForm, showApp, hideLoginError } from "../ui";
 
 describe("Authentication Tests", () => {
-	let loginElement: HTMLDivElement;
-	let appElement: HTMLDivElement;
-	beforeEach(() => {
-		document.body.innerHTML = `
+  let loginElement: HTMLDivElement;
+  let appElement: HTMLDivElement;
+  beforeEach(() => {
+    document.body.innerHTML = `
     <div id="login" style="display: none;"></div>
     <div id="app" style="display: block;"></div>
     `;
 
-		loginElement = document.getElementById("login") as HTMLDivElement;
-		appElement = document.getElementById("app") as HTMLDivElement;
-	});
+    loginElement = document.getElementById("login") as HTMLDivElement;
+    appElement = document.getElementById("app") as HTMLDivElement;
+  });
 
-	afterEach(() => {
-		document.body.innerHTML = "";
-	});
-	test("should show login form", () => {
-		showLoginForm();
+  afterEach(() => {
+    document.body.innerHTML = "";
+  });
+  test("should show login form", () => {
+    showLoginForm();
 
-		expect(loginElement.style.display).toBe("block");
-		expect(appElement.style.display).toBe("none");
-	});
+    expect(loginElement.style.display).toBe("block");
+    expect(appElement.style.display).toBe("none");
+  });
 });
 
 describe("Auth Module Tests", () => {
-	let loginElement: HTMLDivElement;
-	let appElement: HTMLDivElement;
-	beforeEach(() => {
-		document.body.innerHTML = `
+  let loginElement: HTMLDivElement;
+  let appElement: HTMLDivElement;
+  beforeEach(() => {
+    document.body.innerHTML = `
     <div id="login" style="display: block;">
       
     </div>
@@ -37,23 +37,23 @@ describe("Auth Module Tests", () => {
     </div>
     `;
 
-		loginElement = document.getElementById("login") as HTMLDivElement;
-		appElement = document.getElementById("app") as HTMLDivElement;
-	});
+    loginElement = document.getElementById("login") as HTMLDivElement;
+    appElement = document.getElementById("app") as HTMLDivElement;
+  });
 
-	afterEach(() => {
-		document.body.innerHTML = "";
-	});
+  afterEach(() => {
+    document.body.innerHTML = "";
+  });
 
-	test("should show app form", () => {
-		showApp();
+  test("should show app form", () => {
+    showApp();
 
-		expect(loginElement.style.display).toBe("none");
-		expect(appElement.style.display).toBe("block");
-	});
+    expect(loginElement.style.display).toBe("none");
+    expect(appElement.style.display).toBe("block");
+  });
 
-	const setupHtmlStructure = () => {
-		document.body.innerHTML = `
+  const setupHtmlStructure = () => {
+    document.body.innerHTML = `
     <div id="login">
       <div id="divLoginError" class="group" style="display: block;">
         <div id="lblLoginErrorMessage" class="errorlabel">Error message</div>
@@ -63,31 +63,31 @@ describe("Auth Module Tests", () => {
       
     </div>
     `;
-	};
+  };
 
-	describe("Login Error Tests", () => {
-		let divLoginError: HTMLDivElement;
-		let lblLoginErrorMessage: HTMLDivElement;
-		beforeEach(() => {
-			setupHtmlStructure();
+  describe("Login Error Tests", () => {
+    let divLoginError: HTMLDivElement;
+    let lblLoginErrorMessage: HTMLDivElement;
+    beforeEach(() => {
+      setupHtmlStructure();
 
-			divLoginError = document.getElementById(
-				"divLoginError"
-			) as HTMLDivElement;
-			lblLoginErrorMessage = document.getElementById(
-				"lblLoginErrorMessage"
-			) as HTMLDivElement;
-		});
+      divLoginError = document.getElementById(
+        "divLoginError"
+      ) as HTMLDivElement;
+      lblLoginErrorMessage = document.getElementById(
+        "lblLoginErrorMessage"
+      ) as HTMLDivElement;
+    });
 
-		afterEach(() => {
-			document.body.innerHTML = "";
-		});
+    afterEach(() => {
+      document.body.innerHTML = "";
+    });
 
-		test("should hide login form", () => {
-			hideLoginError();
+    test("should hide login form", () => {
+      hideLoginError();
 
-			expect(divLoginError.style.display).toBe("none");
-			expect(lblLoginErrorMessage.textContent).toBe("");
-		});
-	});
+      expect(divLoginError.style.display).toBe("none");
+      expect(lblLoginErrorMessage.textContent).toBe("");
+    });
+  });
 });
