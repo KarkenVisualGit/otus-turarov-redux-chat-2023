@@ -1,11 +1,11 @@
-import { chatReducer, ChatState, ChatActionTypes } from "./ChatReducer";
+import { chatReducer, ChatState, ChatActionTypes } from './ChatReducer';
 
 interface AppState {
   chat: ChatState;
 }
 
 export const initialState: AppState = {
-  chat: chatReducer(undefined, { type: "INIT" }),
+  chat: chatReducer(undefined, { type: 'INIT' }),
 };
 
 type Listener = () => void;
@@ -19,10 +19,10 @@ export class Store {
     private reducer: (state: AppState, action: ChatActionTypes) => AppState,
     initState: AppState,
     private middleware: (
-      store: Store
+      store: Store,
     ) => (
-      next: (action: ChatActionTypes) => void
-    ) => (action: ChatActionTypes) => void
+      next: (action: ChatActionTypes) => void,
+    ) => (action: ChatActionTypes) => void,
   ) {
     this.state = initState;
   }
@@ -38,13 +38,13 @@ export class Store {
 
   private rawDispatch = (action: ChatActionTypes) => {
     this.state = this.reducer(this.state, action);
-    this.listeners.forEach((listener) => listener());
+    this.listeners.forEach(listener => listener());
   };
 
   subscribe(listener: Listener) {
     this.listeners.push(listener);
     return () => {
-      this.listeners = this.listeners.filter((l) => l !== listener);
+      this.listeners = this.listeners.filter(l => l !== listener);
     };
   }
 }

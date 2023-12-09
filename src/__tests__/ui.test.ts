@@ -1,6 +1,6 @@
-import { showLoginForm, showApp, hideLoginError } from "../ui";
+import { showLoginForm, showApp, hideLoginError } from '../ui';
 
-describe("Authentication Tests", () => {
+describe('Authentication Tests', () => {
   let loginElement: HTMLDivElement;
   let appElement: HTMLDivElement;
   beforeEach(() => {
@@ -9,22 +9,22 @@ describe("Authentication Tests", () => {
     <div id="app" style="display: block;"></div>
     `;
 
-    loginElement = document.getElementById("login") as HTMLDivElement;
-    appElement = document.getElementById("app") as HTMLDivElement;
+    loginElement = document.getElementById('login') as HTMLDivElement;
+    appElement = document.getElementById('app') as HTMLDivElement;
   });
 
   afterEach(() => {
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
   });
-  test("should show login form", () => {
+  test('should show login form', () => {
     showLoginForm();
 
-    expect(loginElement.style.display).toBe("block");
-    expect(appElement.style.display).toBe("none");
+    expect(loginElement.style.display).toBe('block');
+    expect(appElement.style.display).toBe('none');
   });
 });
 
-describe("Auth Module Tests", () => {
+describe('Auth Module Tests', () => {
   let loginElement: HTMLDivElement;
   let appElement: HTMLDivElement;
   beforeEach(() => {
@@ -37,19 +37,19 @@ describe("Auth Module Tests", () => {
     </div>
     `;
 
-    loginElement = document.getElementById("login") as HTMLDivElement;
-    appElement = document.getElementById("app") as HTMLDivElement;
+    loginElement = document.getElementById('login') as HTMLDivElement;
+    appElement = document.getElementById('app') as HTMLDivElement;
   });
 
   afterEach(() => {
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
   });
 
-  test("should show app form", () => {
+  test('should show app form', () => {
     showApp();
 
-    expect(loginElement.style.display).toBe("none");
-    expect(appElement.style.display).toBe("block");
+    expect(loginElement.style.display).toBe('none');
+    expect(appElement.style.display).toBe('block');
   });
 
   const setupHtmlStructure = () => {
@@ -65,29 +65,29 @@ describe("Auth Module Tests", () => {
     `;
   };
 
-  describe("Login Error Tests", () => {
+  describe('Login Error Tests', () => {
     let divLoginError: HTMLDivElement;
     let lblLoginErrorMessage: HTMLDivElement;
     beforeEach(() => {
       setupHtmlStructure();
 
       divLoginError = document.getElementById(
-        "divLoginError"
+        'divLoginError',
       ) as HTMLDivElement;
       lblLoginErrorMessage = document.getElementById(
-        "lblLoginErrorMessage"
+        'lblLoginErrorMessage',
       ) as HTMLDivElement;
     });
 
     afterEach(() => {
-      document.body.innerHTML = "";
+      document.body.innerHTML = '';
     });
 
-    test("should hide login form", () => {
+    test('should hide login form', () => {
       hideLoginError();
 
-      expect(divLoginError.style.display).toBe("none");
-      expect(lblLoginErrorMessage.textContent).toBe("");
+      expect(divLoginError.style.display).toBe('none');
+      expect(lblLoginErrorMessage.textContent).toBe('');
     });
   });
 });

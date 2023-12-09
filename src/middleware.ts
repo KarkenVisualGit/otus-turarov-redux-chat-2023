@@ -1,13 +1,13 @@
-import { ChatActionTypes } from "./ChatReducer";
+import { ChatActionTypes } from './ChatReducer';
 import {
   sendMessage,
   getMessagesList,
   observeWithEventSource,
   deleteMessageId,
   EventDataRec,
-} from "./chat";
-import { Store } from "./ChatStore";
-import { getMessages, Message } from "./Actions";
+} from './chat';
+import { Store } from './ChatStore';
+import { getMessages, Message } from './Actions';
 
 type Action = ChatActionTypes;
 
@@ -15,63 +15,63 @@ export function chatMiddleware(store: Store) {
   return function middlewareNext(next: (action: Action) => void) {
     return function middlewareAction(action: Action) {
       switch (action.type) {
-        case "SEND_MESSAGE":
+        case 'SEND_MESSAGE':
           sendMessage(action.payload)
             .then(() => {
-              store.dispatch({ type: "MESSAGE_SENT", payload: action.payload });
+              store.dispatch({ type: 'MESSAGE_SENT', payload: action.payload });
               store.dispatch(getMessages());
             })
-            .catch((error) => {
+            .catch(error => {
               // eslint-disable-next-line no-console
-              console.error("Ошибка отправки сообщения", error);
+              console.error('Ошибка отправки сообщения', error);
             });
           break;
-        case "GET_MESSAGES":
+        case 'GET_MESSAGES':
           getMessagesList()
-            .then((messages) => {
-              store.dispatch({ type: "RECEIVE_MESSAGES", payload: messages });
+            .then(messages => {
+              store.dispatch({ type: 'RECEIVE_MESSAGES', payload: messages });
             })
-            .catch((error) => {
+            .catch(error => {
               // eslint-disable-next-line no-console
-              console.error("Ошибка получения сообщений", error);
+              console.error('Ошибка получения сообщений', error);
             });
           break;
-        case "DELETE_MESSAGE":
+        case 'DELETE_MESSAGE':
           deleteMessageId(action.payload)
             .then(() => {
               store.dispatch({
-                type: "MESSAGE_DELETED",
+                type: 'MESSAGE_DELETED',
                 payload: action.payload,
               });
             })
-            .catch((error) => {
+            .catch(error => {
               store.dispatch({
-                type: "MESSAGE_DELETED",
+                type: 'MESSAGE_DELETED',
                 payload: action.payload,
               });
               // eslint-disable-next-line no-console
-              console.error("Ошибка удаления сообщения", error);
+              console.error('Ошибка удаления сообщения', error);
             });
           break;
-        case "UPDATE_MESSAGES":
+        case 'UPDATE_MESSAGES':
           observeWithEventSource((eventData: EventDataRec | Message) => {
             if (eventData) {
-              if (eventData && "id" in eventData) {
+              if (eventData && 'id' in eventData) {
                 const message = {
                   ...(eventData as Message),
                   date: new Date((eventData as Message).date),
                 };
 
                 store.dispatch({
-                  type: "RECEIVE_NEW_MESSAGE",
+                  type: 'RECEIVE_NEW_MESSAGE',
                   payload: message,
                 });
               } else if (
-                typeof eventData === "object" &&
-                !("id" in eventData)
+                typeof eventData === 'object' &&
+                !('id' in eventData)
               ) {
-                const messages = Object.values(eventData).map((item) => {
-                  if (typeof item === "object" && item && "id" in item) {
+                const messages = Object.values(eventData).map(item => {
+                  if (typeof item === 'object' && item && 'id' in item) {
                     return {
                       ...(item as Message),
                       date: new Date((item as Message).date),
@@ -81,7 +81,7 @@ export function chatMiddleware(store: Store) {
                 }) as Message[];
                 messages.forEach((message: Message) => {
                   store.dispatch({
-                    type: "RECEIVE_NEW_MESSAGE",
+                    type: 'RECEIVE_NEW_MESSAGE',
                     payload: message,
                   });
                 });

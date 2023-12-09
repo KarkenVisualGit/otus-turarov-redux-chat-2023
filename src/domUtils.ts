@@ -1,5 +1,5 @@
-import { Message } from "./Actions";
-import { Store } from "./ChatStore";
+import { Message } from './Actions';
+import { Store } from './ChatStore';
 /**
  * Функция для прокрутки контейнера сообщений до нижней части.
  * @param {HTMLElement} container - Контейнер для сообщений.
@@ -23,28 +23,28 @@ export const addMessageToDOM = (
   handleDeleteMessage: (
     messageId: string,
     messageElement: HTMLElement,
-    store: Store
+    store: Store,
   ) => void,
   renderedMessageIds: Set<string>,
-  store: Store
+  store: Store,
 ) => {
   if (!message || renderedMessageIds.has(message.id)) {
     // eslint-disable-next-line no-console
-    console.error("Некорректное сообщение:", message);
+    console.error('Некорректное сообщение:', message);
     return;
   }
-  const messageElement = document.createElement("div");
-  messageElement.className = "message";
+  const messageElement = document.createElement('div');
+  messageElement.className = 'message';
   messageElement.innerHTML = `
-      <span class="message-date">${message.date.toLocaleString("en-GB")}</span>:
+      <span class="message-date">${message.date.toLocaleString('en-GB')}</span>:
       <span class="message-nickname">${message.nickname}</span>:
       <span class="message-text">${message.message}</span>
     `;
 
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Удалить";
-  deleteButton.addEventListener("click", () =>
-    handleDeleteMessage(message.id, messageElement, store)
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Удалить';
+  deleteButton.addEventListener('click', () =>
+    handleDeleteMessage(message.id, messageElement, store),
   );
   messageElement.appendChild(deleteButton);
 

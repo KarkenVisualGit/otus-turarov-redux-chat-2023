@@ -1,18 +1,18 @@
-import { getMessagesList, ServerResponse, config } from "../chat";
+import { getMessagesList, ServerResponse, config } from '../chat';
 
 global.fetch = jest.fn();
 
-describe("getMessagesList", () => {
+describe('getMessagesList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("fetches messages and returns a list of messages", async () => {
+  it('fetches messages and returns a list of messages', async () => {
     const fakeResponse: ServerResponse = {
-      "1": {
-        id: "1",
-        nickname: "Test User",
-        message: "Hello",
+      '1': {
+        id: '1',
+        nickname: 'Test User',
+        message: 'Hello',
         date: new Date(),
       },
     };
@@ -27,17 +27,17 @@ describe("getMessagesList", () => {
       `${config.firebaseBaseUrl}/${config.firebaseCollection}`,
       {
         headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
 
     expect(result).toEqual(
-      Object.values(fakeResponse).map((el) => ({
+      Object.values(fakeResponse).map(el => ({
         ...el,
         date: new Date(el.date || Date.now()),
-      }))
+      })),
     );
   });
 });

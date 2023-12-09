@@ -6,7 +6,7 @@ import {
   RECEIVE_NEW_MESSAGE,
   DELETE_MESSAGE,
   UPDATE_MESSAGES,
-} from "./ActionTypes";
+} from './ActionTypes';
 
 import {
   type SendMessageAction,
@@ -14,7 +14,7 @@ import {
   type ReceiveNewMessageAction,
   type DeleteAction,
   type UpdateMessagesAction,
-} from "./ChatReducer";
+} from './ChatReducer';
 
 export interface Message {
   id: string;
@@ -55,7 +55,7 @@ export const messageSent = (message: Message) => ({
 });
 
 export const receiveNewMessage = (
-  message: Message
+  message: Message,
 ): ReceiveNewMessageAction => ({
   type: RECEIVE_NEW_MESSAGE,
   payload: message,

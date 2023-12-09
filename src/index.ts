@@ -1,6 +1,6 @@
-import "./style/style.css";
+import './style/style.css';
 
-import { initializeApp, FirebaseError } from "firebase/app";
+import { initializeApp, FirebaseError } from 'firebase/app';
 import {
   getAuth,
   onAuthStateChanged,
@@ -9,15 +9,15 @@ import {
   signInWithEmailAndPassword,
   // connectAuthEmulator,
   User,
-} from "firebase/auth";
+} from 'firebase/auth';
 import {
   hideLoginError,
   showLoginState,
   showLoginForm,
   showApp,
   showLoginError,
-} from "./ui";
-import { firebaseConfig } from "./chat";
+} from './ui';
+import { firebaseConfig } from './chat';
 
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -25,9 +25,9 @@ const auth = getAuth(firebaseApp);
 // connectAuthEmulator(auth, "http://localhost:9099");
 
 export const loginEmailPassword = async (): Promise<void> => {
-  const txtEmail = document.querySelector("#txtEmail") as HTMLInputElement;
+  const txtEmail = document.querySelector('#txtEmail') as HTMLInputElement;
   const txtPassword = document.querySelector(
-    "#txtPassword"
+    '#txtPassword',
   ) as HTMLInputElement;
   // const loginEmail = txtEmail ? txtEmail.value : '';
   // const loginPassword = txtPassword ? txtPassword.value : '';
@@ -39,10 +39,10 @@ export const loginEmailPassword = async (): Promise<void> => {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       loginEmail,
-      loginPassword
+      loginPassword,
     );
     if (userCredential && userCredential.user && userCredential.user.email) {
-      localStorage.setItem("userEmail", userCredential.user.email);
+      localStorage.setItem('userEmail', userCredential.user.email);
     }
   } catch (error) {
     if (error instanceof FirebaseError) {
@@ -54,9 +54,9 @@ export const loginEmailPassword = async (): Promise<void> => {
 };
 
 export const createAccount = async (): Promise<void> => {
-  const txtEmail = document.querySelector("#txtEmail") as HTMLInputElement;
+  const txtEmail = document.querySelector('#txtEmail') as HTMLInputElement;
   const txtPassword = document.querySelector(
-    "#txtPassword"
+    '#txtPassword',
   ) as HTMLInputElement;
   const email = txtEmail.value;
   const password = txtPassword.value;
@@ -74,7 +74,7 @@ export const createAccount = async (): Promise<void> => {
 
 export const monitorAuthState = async (): Promise<void> => {
   const lblAuthState = document.querySelector(
-    "#lblAuthState"
+    '#lblAuthState',
   ) as HTMLDivElement;
   onAuthStateChanged(auth, (user: User | null) => {
     if (user) {
@@ -82,7 +82,7 @@ export const monitorAuthState = async (): Promise<void> => {
       showLoginState(user);
 
       hideLoginError();
-      window.location.href = "./app.html";
+      window.location.href = './app.html';
     } else {
       showLoginForm();
       lblAuthState.innerHTML = "You're not logged in.";
@@ -93,14 +93,14 @@ export const monitorAuthState = async (): Promise<void> => {
 export const logout = async (): Promise<void> => {
   await signOut(auth);
 };
-const btnLogin = document.querySelector("#btnLogin") as HTMLButtonElement;
-const btnSignup = document.querySelector("#btnSignup") as HTMLButtonElement;
+const btnLogin = document.querySelector('#btnLogin') as HTMLButtonElement;
+const btnSignup = document.querySelector('#btnSignup') as HTMLButtonElement;
 
-const btnLogout = document.querySelector("#btnLogout") as HTMLButtonElement;
+const btnLogout = document.querySelector('#btnLogout') as HTMLButtonElement;
 if (btnLogin && btnSignup && btnLogout) {
-  btnLogin.addEventListener("click", loginEmailPassword);
-  btnSignup.addEventListener("click", createAccount);
-  btnLogout.addEventListener("click", logout);
+  btnLogin.addEventListener('click', loginEmailPassword);
+  btnSignup.addEventListener('click', createAccount);
+  btnLogout.addEventListener('click', logout);
 }
 
 monitorAuthState();

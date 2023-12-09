@@ -1,29 +1,29 @@
-import { getAuth, signOut, connectAuthEmulator } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { sendMessages, deleteMessage, Message } from "./Actions";
-import { generateUniqueId, firebaseConfig } from "./chat";
-import { Store } from "./ChatStore";
+import { getAuth, signOut, connectAuthEmulator } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { sendMessages, deleteMessage, Message } from './Actions';
+import { generateUniqueId, firebaseConfig } from './chat';
+import { Store } from './ChatStore';
 
 const firebaseApp = initializeApp(firebaseConfig);
 
 export const auth = getAuth(firebaseApp);
-connectAuthEmulator(auth, "http://localhost:9099");
+connectAuthEmulator(auth, 'http://localhost:9099');
 
 export const handleLogout = () => {
   signOut(auth)
     .then(() => {
-      window.location.href = "index.html";
+      window.location.href = 'index.html';
     })
-    .catch((error) => {
+    .catch(error => {
       // eslint-disable-next-line no-console
-      console.error("Logout failed", error);
+      console.error('Logout failed', error);
     });
 };
 
 export const toggleEmojiPicker = (emojiPicker: HTMLElement) => {
   // eslint-disable-next-line no-param-reassign
   emojiPicker.style.display =
-    emojiPicker.style.display === "none" ? "block" : "none";
+    emojiPicker.style.display === 'none' ? 'block' : 'none';
 };
 
 /**
@@ -36,7 +36,7 @@ export const handleSubmit = (
   e: Event,
   messageInput: HTMLDivElement,
   nicknameInput: HTMLInputElement,
-  store: Store
+  store: Store,
 ) => {
   e.preventDefault();
 
@@ -45,7 +45,7 @@ export const handleSubmit = (
 
   if (!nickname || !messageContent) {
     // eslint-disable-next-line no-console
-    console.error("Nickname and message cannot be empty");
+    console.error('Nickname and message cannot be empty');
     return;
   }
 
@@ -58,7 +58,7 @@ export const handleSubmit = (
 
   store.dispatch(sendMessages(message));
   // eslint-disable-next-line no-param-reassign
-  messageInput.innerHTML = "";
+  messageInput.innerHTML = '';
 };
 
 /**
@@ -69,7 +69,7 @@ export const handleSubmit = (
 export const handleDeleteMessage = (
   messageId: string,
   messageElement: HTMLElement,
-  store: Store
+  store: Store,
 ) => {
   store.dispatch(deleteMessage(messageId));
   messageElement.remove();

@@ -1,4 +1,4 @@
-import * as actions from "../Actions";
+import * as actions from '../Actions';
 import {
   GET_MESSAGES,
   RECEIVE_MESSAGES,
@@ -7,19 +7,19 @@ import {
   RECEIVE_NEW_MESSAGE,
   DELETE_MESSAGE,
   UPDATE_MESSAGES,
-} from "../ActionTypes";
+} from '../ActionTypes';
 
-describe("action creators", () => {
-  it("should create an action to get messages", () => {
+describe('action creators', () => {
+  it('should create an action to get messages', () => {
     const expectedAction = {
       type: GET_MESSAGES,
     };
     expect(actions.getMessages()).toEqual(expectedAction);
   });
 
-  it("should create an action to receive messages", () => {
+  it('should create an action to receive messages', () => {
     const messages = [
-      { id: "1", nickname: "User", message: "Test", date: new Date() },
+      { id: '1', nickname: 'User', message: 'Test', date: new Date() },
     ];
     const expectedAction = {
       type: RECEIVE_MESSAGES,
@@ -28,11 +28,11 @@ describe("action creators", () => {
     expect(actions.receiveMessages(messages)).toEqual(expectedAction);
   });
 
-  it("should create an action to send a message", () => {
+  it('should create an action to send a message', () => {
     const message = {
-      id: "2",
-      nickname: "User2",
-      message: "Hello",
+      id: '2',
+      nickname: 'User2',
+      message: 'Hello',
       date: new Date(),
     };
     const expectedAction = {
@@ -42,11 +42,11 @@ describe("action creators", () => {
     expect(actions.sendMessages(message)).toEqual(expectedAction);
   });
 
-  it("should create an action when a message is sent", () => {
+  it('should create an action when a message is sent', () => {
     const message = {
-      id: "3",
-      nickname: "User3",
-      message: "Hi there",
+      id: '3',
+      nickname: 'User3',
+      message: 'Hi there',
       date: new Date(),
     };
     const expectedAction = {
@@ -56,11 +56,11 @@ describe("action creators", () => {
     expect(actions.messageSent(message)).toEqual(expectedAction);
   });
 
-  it("should create an action to receive a new message", () => {
+  it('should create an action to receive a new message', () => {
     const newMessage = {
-      id: "4",
-      nickname: "User4",
-      message: "Good day",
+      id: '4',
+      nickname: 'User4',
+      message: 'Good day',
       date: new Date(),
     };
     const expectedAction = {
@@ -70,8 +70,8 @@ describe("action creators", () => {
     expect(actions.receiveNewMessage(newMessage)).toEqual(expectedAction);
   });
 
-  it("should create an action to delete a message", () => {
-    const messageId = "1";
+  it('should create an action to delete a message', () => {
+    const messageId = '1';
     const expectedAction = {
       type: DELETE_MESSAGE,
       payload: messageId,
@@ -79,7 +79,7 @@ describe("action creators", () => {
     expect(actions.deleteMessage(messageId)).toEqual(expectedAction);
   });
 
-  it("should create an action to update messages", () => {
+  it('should create an action to update messages', () => {
     const expectedAction = {
       type: UPDATE_MESSAGES,
     };

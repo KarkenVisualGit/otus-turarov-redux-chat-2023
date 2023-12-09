@@ -9,9 +9,9 @@ import {
   DELETE_MESSAGE,
   UPDATE_MESSAGES,
   MESSAGE_DELETED,
-} from "./ActionTypes";
+} from './ActionTypes';
 
-import { Message } from "./Actions";
+import { Message } from './Actions';
 
 export interface GetMessagesAction {
   type: typeof GET_MESSAGES;
@@ -78,7 +78,7 @@ export const initialState: ChatState = {
 
 export const chatReducer = (
   state: ChatState = initialState,
-  action: ChatActionTypes
+  action: ChatActionTypes,
 ): ChatState => {
   switch (action.type) {
     case INIT: {
@@ -103,7 +103,7 @@ export const chatReducer = (
     case RECEIVE_NEW_MESSAGE:
       if (!action.payload) {
         // eslint-disable-next-line no-console
-        console.error("Invalid message structure:", action.payload);
+        console.error('Invalid message structure:', action.payload);
       }
       return {
         ...state,
@@ -113,7 +113,7 @@ export const chatReducer = (
       const newState = {
         ...state,
         messages: state.messages.filter(
-          (message) => message.id !== action.payload
+          message => message.id !== action.payload,
         ),
       };
       return newState;
@@ -122,7 +122,7 @@ export const chatReducer = (
       const delState = {
         ...state,
         messages: state.messages.filter(
-          (message) => message.id !== action.payload
+          message => message.id !== action.payload,
         ),
       };
       return delState;

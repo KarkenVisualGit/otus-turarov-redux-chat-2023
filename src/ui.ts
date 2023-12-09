@@ -1,59 +1,59 @@
-import { AuthErrorCodes, User } from "firebase/auth";
-import { FirebaseError } from "firebase/app";
+import { AuthErrorCodes, User } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
 
 export const divAuthState = document.querySelector(
-  "#divAuthState"
+  '#divAuthState',
 ) as HTMLDivElement;
 
 export const showLoginForm = (): void => {
-  const login = document.querySelector("#login") as HTMLDivElement;
-  const app = document.querySelector("#app") as HTMLDivElement;
+  const login = document.querySelector('#login') as HTMLDivElement;
+  const app = document.querySelector('#app') as HTMLDivElement;
   if (login) {
-    login.style.display = "block";
+    login.style.display = 'block';
   }
   if (app) {
-    app.style.display = "none";
+    app.style.display = 'none';
   }
 };
 
 export const showApp = (): void => {
-  const login = document.querySelector("#login") as HTMLDivElement;
-  const app = document.querySelector("#app") as HTMLDivElement;
+  const login = document.querySelector('#login') as HTMLDivElement;
+  const app = document.querySelector('#app') as HTMLDivElement;
   if (login) {
-    login.style.display = "none";
+    login.style.display = 'none';
   }
   if (app) {
-    app.style.display = "block";
+    app.style.display = 'block';
   }
 };
 
 export const hideLoginError = (): void => {
   const divLoginError = document.querySelector(
-    "#divLoginError"
+    '#divLoginError',
   ) as HTMLDivElement;
   const lblLoginErrorMessage = document.querySelector(
-    "#lblLoginErrorMessage"
+    '#lblLoginErrorMessage',
   ) as HTMLDivElement;
   if (divLoginError) {
-    divLoginError.style.display = "none";
+    divLoginError.style.display = 'none';
   }
   if (lblLoginErrorMessage) {
-    lblLoginErrorMessage.innerHTML = "";
+    lblLoginErrorMessage.innerHTML = '';
   }
 };
 
 export const showLoginError = (error: FirebaseError): void => {
   const divLoginError = document.querySelector(
-    "#divLoginError"
+    '#divLoginError',
   ) as HTMLDivElement;
   const lblLoginErrorMessage = document.querySelector(
-    "#lblLoginErrorMessage"
+    '#lblLoginErrorMessage',
   ) as HTMLDivElement;
   if (divLoginError) {
-    divLoginError.style.display = "block";
+    divLoginError.style.display = 'block';
   }
   if (error.code === AuthErrorCodes.INVALID_PASSWORD && lblLoginErrorMessage) {
-    lblLoginErrorMessage.innerHTML = "Wrong password. Try again.";
+    lblLoginErrorMessage.innerHTML = 'Wrong password. Try again.';
   } else {
     lblLoginErrorMessage.innerHTML = `Error: ${error.message}`;
   }
@@ -61,7 +61,7 @@ export const showLoginError = (error: FirebaseError): void => {
 
 export const showLoginState = (user: User): void => {
   const lblAuthState = document.querySelector(
-    "#lblAuthState"
+    '#lblAuthState',
   ) as HTMLDivElement;
   if (lblAuthState) {
     lblAuthState.innerHTML =
