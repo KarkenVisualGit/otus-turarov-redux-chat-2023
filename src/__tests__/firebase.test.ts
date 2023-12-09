@@ -9,27 +9,27 @@ type MockUserProps = {
 };
 
 const mockFirebaseError = (
-  name: string,
-  code: string,
-  message: string
+	name: string,
+	code: string,
+	message: string
 ): FirebaseError => ({
-  name,
-  code,
-  message,
+	name,
+	code,
+	message,
 });
 
 const mockUser = (
-  displayName: string,
-  uid: string,
-  email: string
+	displayName: string,
+	uid: string,
+	email: string
 ): MockUserProps => ({
-  displayName,
-  uid,
-  email,
+	displayName,
+	uid,
+	email,
 });
 
 const setupHtmlStructure = () => {
-  document.body.innerHTML = `
+	document.body.innerHTML = `
     <div id="login">
       <div id="divLoginError" class="group" style="display:none">
         <div id="lblLoginErrorMessage" class="errorlabel"></div>
@@ -55,52 +55,52 @@ const setupHtmlStructure = () => {
 };
 
 describe("Login Error Tests", () => {
-  beforeEach(() => {
-    setupHtmlStructure();
-  });
+	beforeEach(() => {
+		setupHtmlStructure();
+	});
 
-  afterEach(() => {
-    document.body.innerHTML = "";
-  });
+	afterEach(() => {
+		document.body.innerHTML = "";
+	});
 
-  it("should display the correct error message for INVALID_PASSWORD", () => {
-    const error = mockFirebaseError(
-      AuthErrorCodes.INVALID_PASSWORD,
-      "some-error-code",
-      "Wrong password. Try again."
-    );
-    showLoginError(error);
-    const errorMessageElement = document.getElementById("lblLoginErrorMessage");
+	it("should display the correct error message for INVALID_PASSWORD", () => {
+		const error = mockFirebaseError(
+			AuthErrorCodes.INVALID_PASSWORD,
+			"some-error-code",
+			"Wrong password. Try again."
+		);
+		showLoginError(error);
+		const errorMessageElement = document.getElementById("lblLoginErrorMessage");
 
-    expect(errorMessageElement).not.toBeNull();
-    expect(errorMessageElement?.textContent).toBe(
-      "Error: Wrong password. Try again."
-    );
-  });
+		expect(errorMessageElement).not.toBeNull();
+		expect(errorMessageElement?.textContent).toBe(
+			"Error: Wrong password. Try again."
+		);
+	});
 
-  it("should display the general error message for other errors", () => {
-    const error = mockFirebaseError(
-      "some-other-error-code",
-      "some-error-code",
-      "Some error message"
-    );
-    showLoginError(error);
-    const errorMessageElement = document.getElementById("lblLoginErrorMessage");
+	it("should display the general error message for other errors", () => {
+		const error = mockFirebaseError(
+			"some-other-error-code",
+			"some-error-code",
+			"Some error message"
+		);
+		showLoginError(error);
+		const errorMessageElement = document.getElementById("lblLoginErrorMessage");
 
-    expect(errorMessageElement?.textContent).toBe(`Error: ${error.message}`);
-  });
+		expect(errorMessageElement?.textContent).toBe(`Error: ${error.message}`);
+	});
 
-  it("should display the correct user information", () => {
-    const user = mockUser(
-      "John Doe",
-      "123456",
-      "john@example.com"
-    ) as unknown as User;
-    showLoginState(user);
-    const authStateElement = document.getElementById("lblAuthState");
+	it("should display the correct user information", () => {
+		const user = mockUser(
+			"John Doe",
+			"123456",
+			"john@example.com"
+		) as unknown as User;
+		showLoginState(user);
+		const authStateElement = document.getElementById("lblAuthState");
 
-    expect(authStateElement?.textContent).toContain(
-      `You're logged in as ${user.displayName} (uid: ${user.uid}, email: ${user.email})`
-    );
-  });
+		expect(authStateElement?.textContent).toContain(
+			`You're logged in as ${user.displayName} (uid: ${user.uid}, email: ${user.email})`
+		);
+	});
 });
