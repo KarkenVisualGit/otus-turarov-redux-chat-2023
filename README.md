@@ -1,6 +1,8 @@
+[![codecov](https://codecov.io/gh/KarkenVisualGit/otus-turarov-redux-chat-2023/graph/badge.svg?token=GRoZyjEJVz)](https://codecov.io/gh/KarkenVisualGit/otus-turarov-redux-chat-2023/tree/redux-chat-2023)
+
 ## Report
 
-> :exclamation: No coverage uploaded for pull request base (`main@19bf318`). [Click here to learn what that means](https://docs.codecov.io/docs/error-reference?utm_medium=referral&utm_source=github&utm_content=checks&utm_campaign=pr+comments&utm_term=Karken+Turarov#section-missing-base-commit). The diff coverage is `n/a`.
+> :exclamation: No coverage uploaded for pull request base (`main@eee1b1a`). [Click here to learn what that means](https://docs.codecov.io/docs/error-reference?utm_medium=referral&utm_source=github&utm_content=checks&utm_campaign=pr+comments&utm_term=Karken+Turarov#section-missing-base-commit). The diff coverage is `n/a`.
 
 ## Additional details and impacted files
 
@@ -8,15 +10,15 @@
 @@           Coverage Diff           @@
 ##             main       #1   +/-   ##
 =======================================
-  Coverage        ?   93.98%
+  Coverage        ?   90.22%
 =======================================
-  Files           ?        6
-  Lines           ?      316
-  Branches        ?       46
+  Files           ?       12
+  Lines           ?     1064
+  Branches        ?       86
 =======================================
-  Hits            ?      297
-  Misses          ?       16
-  Partials        ?        3
+  Hits            ?      960
+  Misses          ?      104
+  Partials        ?        0
 
 ```
 

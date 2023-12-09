@@ -1,9 +1,9 @@
 name: Deploy to GitHubPages
 on:
   push:
-    branches: ["redux-api-2023"]
+    branches: ["redux-chat-2023"]
   pull_request:
-    branches: ["redux-api-2023"]
+    branches: ["redux-chat-2023"]
 permissions:
   contents: write
 jobs:
