@@ -41,7 +41,10 @@ module.exports = {
 		"no-restricted-globals": "warn",
 		"no-promise-executor-return": "warn",
 		"indent": ["error", "tab"],
-		"linebreak-style": ["error", "unix"],
+		"linebreak-style": [
+			"error",
+			process.platform === "win32" ? "windows" : "unix",
+		],
 		"quotes": ["error", "double"],
 		"semi": ["error", "always"],
 		"jest/no-disabled-tests": "warn",
