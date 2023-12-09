@@ -8,6 +8,7 @@ coverage
 /dist
 /prod
 node_modules
+.vscode
 
 # OS generated files
 .DS_Store
